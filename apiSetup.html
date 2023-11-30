@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>CP4I - Messaging</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <script>
+
+
+        function myalertnewapifield() {
+            alert("1. Add new fields in swagger.json from other resources \n2. add it in getOrder_Mapping.map \n3.Regenerate bar files \n4.Upload the bar files and test it to confirm the new parameters are added.");
+        }
+        function myalertpodeventstreamsuser() {
+            alert("Installed Operators -> IBM Event Streams -> Kafka User");
+        }
+        function myalertpodeventTopic() {
+            alert("Installed Operators -> IBM Event Streams -> Kafka Topic");
+        }
+        function copyToClipboard(element) {
+            // Get the <pre> element
+            const preTag = document.getElementById(element);
+
+            // Create a copy button element
+            const copyButton = document.createElement("span");
+            copyButton.innerText = "Copy";
+            copyButton.classList.add("copy-button");
+
+            // Append the copy button to the <pre> tag
+            preTag.appendChild(copyButton);
+
+            // Add click event listener to the copy button
+            copyButton.addEventListener("click", () => {
+                // Hide the copy button temporarily
+                copyButton.style.display = "none";
+
+                // Create a range and select the text inside the <pre> tag
+                const range = document.createRange();
+                range.selectNode(preTag);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+
+                try {
+                    // Copy the selected text to the clipboard
+                    document.execCommand("copy");
+
+                    // Alert the user that the text has been copied
+                    copyButton.innerText = "Copied!";
+                    setTimeout(function () {
+                        copyButton.innerText = "Copy";
+                    }, 2000);
+                } catch (err) {
+                    console.error("Unable to copy text:", err);
+                } finally {
+                    // Show the copy button again
+                    copyButton.style.display = "inline";
+
+                    // Deselect the text
+                    window.getSelection().removeAllRanges();
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .codeDiv {
+            border: 1px #0000006e;
+            background-color: #f8f8f8;
+            text-align: left;
+            vertical-align: text-bottom;
+            color: #da467d;
+        }
+
+        pre {
+            position: relative;
+            background: #d3d6db;
+            padding: 10px;
+            font-size: 15px;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            border: 1px solid #e6e7e9;
+
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 2px;
+            right: 10px;
+            cursor: pointer;
+            color: #fff;
+            background: gray;
+            border-radius: 0.5em;
+            padding: 2px 7px;
+        }
+
+        .copy-button:hover {
+            color: #000;
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="index.html">IBM CSM</a>
+
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+        <a class="navbar-brand ps-3" href="index.html">Integration Skills Launchpad</a>
+        <!-- Navbar Search
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>-->
+        <!-- Navbar
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>-->
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link" href="content.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Table Of Contents
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Overview
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Integration Capabilities</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Prepare
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="cp4isetuppreexisting.html">Existing OCP Configuration</a>
+                                <a class="nav-link" href="cp4isetupnewoperators.html">Install Integration Operators</a>
+                            </nav>
+                        </div>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                            aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Configure
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="mqsetup.html">Messaging Queue</a>
+                                <a class="nav-link" href="eventstreamssetup.html">Events Cluster</a>
+                                <a class="nav-link" href="streamingqueue.html">Streaming Queue</a>
+                                <a class="nav-link" href="apiSetup.html">API and EEM</a>
+                                <a class="nav-link" href="appConnectEnterprise.html">App Connect Enterprise</a>
+
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages1">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Build
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="apiToMQUsingACEDesigner.html">API to MQ Using Ace</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Run
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages2" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="testapplication.html">Testing Applications</a>
+                                <a class="nav-link" href="run.html">Scenario Walkthrough</a>
+                            </nav>
+                        </div>
+                        <div class="sb-sidenav-menu-heading">Environment Guides</div>
+                        <a class="nav-link" href="logonInformation.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Environment Details
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Add ons</div>
+                        <a class="nav-link" href="glossary.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Glossary
+                        </a>
+                        <!-- <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Charts
+                            </a>
+                            <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
+                            </a> -->
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">IBM CSM</div>
+
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Configure API and Event Endpoint Management</h1>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">
+                                    <h4 id="overview">Overview</h4>
+                                </li>
+                            </ol>
+                            <p class="mb-0">
+                                In this section for the configure we will be configuring the combined API and Event End
+                                Point Manger, along with analytics and developer portal.
+                                The key components of this architecture are highlighted in the below image.
+                            </p>
+                            <img src="img/api-eem.png" alt="API and Event Endpoint Management Components" width="80%">
+
+                            <p class="mb-0"> In this part of the Scenario, we will confiure
+                            <ul>
+                                <li>API Management Subsystem which includes the API and Cloud Manager components which
+                                    admister the API subsystems</li>
+                                <li>The Analytics subsystem that gather statiistical data for analysis on the usage and
+                                    perfomance of the API and event gateways</li>
+                                <li>THe API Gateways which provide the exposed interfaces for consumers and connectivity
+                                    to API implementations</li>
+                                <li>Event Gateways Service handles incoming requests from applications that want to
+                                    consume from the stream of events </li>
+                            </ul>
+                            Gateways provide a crucial layer of abstraction for the consuming applicaitons that protects
+                            them from implementation details of the API/Event implementaitons behind.
+                            </br>In this image we highlight what will be configured.
+                            </br><img src="img/api-em-2.png" alt="API and Event Enpoint Management Configure Sequence"
+                                width="80%">
+                            </br>
+                            <ol type="1">
+                                <li>Firstly we will configure the capabiltiies and wait for OCP to start the pods.</li>
+                                <li>Once the capailites for API are configured we will set the email server in the Cloud
+                                    Manager</li>
+                                <li>We will subsequently configure a provider organisation and the organisation owner
+                                </li>
+                                <li>Define a developer portal and some users for the portal for the created oganistion
+                                </li>
+                                <li>Create the API catalog for this demosntration</li>
+                                <li>Define the event gateway service for the manger.</li>
+                            </ol>
+                            </p>
+                            </br>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">
+                                    <h4 id="configure">Configure API Connect</h4>
+                                </li>
+                            </ol>
+
+                            <p class="mb-0">For this configuration we will use the Integration Platform UI of the Cloud
+                                Pak for Integration the UI gives us a straight forward UI that allows for fast and easy
+                                configuration of the integration capabilties. See the previously given <a
+                                    href="mqsetup.html#mq" target="_blank">Login instruction</a> and login into the CP4I
+                                Platform UI using the admin user id.
+                            </p></br>
+                            <ol>
+                                <li>Navigate to the Integration Instances page from the Platform UI home page</li>
+                                <img src="img/platform-ui.png" alt="CP4I Platform UI Home page" width="80%"></br>
+                                </br>
+                                <li>Click on the Create Instance button. On the Create Instance page you will see the
+                                    integration capabilities that can be configured. Greyed out capabilities is an
+                                    indicator that the operators for these capabilities are not yet installed.</li></br>
+                                <li>Select API Management and Click Next</li>
+                                <img src="img/create-instance.png" alt="Create Instance" width="80%"></br></br>
+                                <li>Select Medium Single Replica and Click Next. This will install a Single instances of
+                                    Management, Developer Portal, API Analytics and API Gateways.</li>
+                                <img src="img/medium-single-replica.png" alt="Medium Single Replica"
+                                    width="80%"></br></br>
+                                <li>On the capability configuration screen for API we will do a minimalistic setup and
+                                    this install we are not exploring advanced settings and options. If you want to see
+                                    some of the advanced settings you can toggle the advanced settings button. But for
+                                    the purposes of the scenario only a basic setup as per the chosen profile in the
+                                    previous step is needed.</li>
+                                <ol type="a">
+                                    <li>Enter a name in the "Name" field here we used <b>apic</b></li>
+                                    <li>Toggle the "Accept License agreement" to accepted</li>
+                                    <li>"License use" is optional but normally set to non production</li>
+                                    <li>"License ID" can use the default as per selection it may not match exactly what
+                                        is in the screenshot but would be similar</li>
+                                    <li>Check that the "Storage Class" is set it should be set to a esisting storage
+                                        class type that matches the RWO requirement</li>
+                                    <li>Once you are happy with the settings click the Create Button in the top right
+                                        corner</li>
+                                </ol>
+                                <img src="img/api-ms-config.png" alt="Medium Single Replica Configuration"
+                                    width="80%"></br></br>
+                                <li>The capabilities will now install and once it has we will complete additional
+                                    configurations. You can proceed with the next step configuring the mailtrap while
+                                    you wait for this to progress. When complete successfully you will see three new
+                                    integration instances types </li>
+                                <ol type="i">
+                                    <li>API-managed enterprise gateway (apic-gw) </li>
+                                    <li>API management adminstration (apic)</li>
+                                    <li>API management (apic)</li>
+                                </ol>
+                                <img src="img/api-capability-deployed.png" alt="Created Integration Instances"
+                                    width="80%"></br></br>
+                                <li>Once the new integration intances are created you can also take a look at the
+                                    created pods. you should observe and outcome similar to the below image showing the
+                                    running pods for API mangement, Analytics and API Gateways</li>
+                                <div class="codeDiv">
+                                    <pre><code>oc get pods -n cp4i --field-selector=status.phase=Running | grep apic</code></pre>
+                                </div>
+                                <img src="img/get-pods-out.png" alt="Output from get pods execution"
+                                    width="80%"></br></br>
+                            </ol>
+                            </p>
+                            <ol>
+
+                                <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item active">
+                                        <h4>API Manager Notifications</h4>
+                                    </li>
+                                </ol>
+                                <p class="mb-0">In this section we will use mail trap and configure SMTP notfications
+                                    from the API Manager.
+                                </p></br>
+                                <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item active">
+                                        <h5>Mail Trap</h5>
+                                    </li>
+                                </ol>
+                                <p class="mb-0">To configure the nofifications we need a SMTP server setup for this lab
+                                    we will use mailtrap to simulate the SMTP server.
+                                </p></br>
+                                <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item active">
+                                        <h6>Signup to Mail Trap</h6>
+                                    </li>
+                                    <p>Note if you set this up as part of the lab prerequsites or already have a mail
+                                        trap account proceded to the <a href="#lmt">Logon to Mail Trap</a>. If you
+                                        prefer to not signup ask your instructor for the details to a mail trap account
+                                        that has been setup prior to the lab.</p>
+                                    <ol>
+                                        <li>Navigate to <a href="https://mailtrap.io/">Mail Trap</a> click the Sign Up
+                                            in the top right corner.</li>
+                                        <li>Create a new user account entering a email id. Prefer a public email address
+                                            to your corporate email address.</li>
+                                        <img src="img/mail-trap-new.png" alt="New Mail Trap Account" width="50%"></br>
+                                        <li>Verify the New account using the verification email sent to your supplied
+                                            email address.</li>
+                                        <img src="img/mail-trap-verify.png" alt="Verify email address"
+                                            width="50%"></br></br>
+                                        <li>Proceed to Log In to Mail Trap.</li></br></br>
+                                    </ol>
+                                    <li class="breadcrumb-item active">
+                                        <h6 id="lmt">Log In to Mail Trap</h6>
+                                    </li>
+                                    <ol>
+                                        <li>Log In to <a href="https://mailtrap.io/">Mail Trap</a> click the Log In
+                                            button in the top right corner. Enter the user email and password click Log
+                                            In</li>
+                                        <img src="img/mail-trap-login.png" alt="Log In" width="50%"></br>
+                                        <li>Select Email Testing > Inboxes and click MyInbox to navigate to the inbox we
+                                            will use for testing with the API Manager.</li>
+                                        <img src="img/mail-trap-myinbox.png" alt="Email Testing Inbox" width="80%"
+                                            height="150px"></br></br>
+                                        <li>On the inbox window click Show Credentials to reveal the SMTP settings that
+                                            we will apply in the API Manager.</li>
+                                        <img src="img/mail-trap-show-details.png" alt="Inbox Show Credentials"
+                                            width="80%"></br></br>
+                                        <li>SMTP Settings,</li>
+                                        <img src="img/mail-trap-smtp-settings.png" alt="SMTP Settings"
+                                            width="80%"></br></br>
+                                    </ol>
+
+                                </ol>
+                                <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item active">
+                                        <h5 id="notifications">Configure Notifications In the API Manager</h5>
+                                    </li>
+                                </ol>
+                                <ol>
+                                    <li>From the Integration Instances view click on the "apic" link for the API
+                                        management adminstration instance.</li>
+                                    <img src="img/API-mgmt-sub.png" alt="API management administration" width="80%"
+                                        height="50px"></br></br>
+                                    <li>Login continuing with the Cloud Manager "Common Services User Registry". This
+                                        will allow us to continue as the default created "admin" user.</li>
+                                    <img src="img/cloud-manager.png" alt="Cloud Manager Login" width="80%"></br></br>
+                                    <li>Click on the "Manage Resources" tile.</li>
+                                    <img src="img/manage-resources.png" alt="Manager Resources" width="80%"></br></br>
+                                    <li>From the Resoruces view select "Notifications" from the menu. In the
+                                        Notifications view click the "Create" Button.</li>
+                                    <img src="img/manage-resources-notifications.png"
+                                        alt="Manager Resources Notifications" width="80%"></br></br>
+                                    <li>Enter the mail server settings from the Mail Trap SMTP settings.</li>
+                                    <img src="img/mailserver-settings.png" alt="Mail Server Settings"
+                                        width="80%"></br></br>
+                                    <li>Test the connection by sending a test email.</li>
+                                    <img src="img/test-mail.png" alt="Test Email semd to" width="80%"></br></br>
+                                    <li>Once complete the test email sent will be confirmed.</li>
+                                    <img src="img/test-mail-2.png" alt="Test Email semd to" width="80%"></br></br>
+                                    <li>Return to the mail trap inbox and you can view the test mail sent.</li>
+                                    <img src="img/test-mail-out.png" alt="Test email recved in mail trap"
+                                        width="80%"></br></br>
+                                    <li>Click the setings (cog) button on the left hand icon menu.</li>
+                                    <img src="img/cloud-manager-settings.png" alt="Change the Mail Server Settings"
+                                        width="80%"></br></br>
+                                    <li>Click the Notifications submenu in the Settings view. Click the Edit button to
+                                        edit the mail server settings.</li>
+                                    <img src="img/cloud-manager-notifications.png"
+                                        alt="Cloud Manager Settings Notifications" width="80%"></br></br>
+                                    <li>Select the new mail server thta was just defined and save the the change.</li>
+                                    <img src="img/cloud-manager-edit-email-server.png" alt="Edit Mail Server Settings"
+                                        width="80%"></br></br>
+                                    <li>Saved changes to mailserver.</li>
+                                    <img src="img/cloud-manager-mail-server-saved.png" alt="Saved Mail Server Settings"
+                                        width="80%"></br></br>
+                                    <li>Saved changes to mailserver. Click on the Home Icon from the Icon Menu this
+                                        will take us to the Home view for the catalog manager which is where the next
+                                        section will begin.</li>
+                                </ol>
+                            </ol>
+                            <ol>
+
+                                <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item active">
+                                        <h4>Create Provider Organization and Catalog</h4>
+                                    </li>
+                                </ol>
+                                <p class="mb-0">In this section we will create a provider orgnanization, catalog, and
+                                    Developer Portal. Which will be used later in the creation and publising of APIs.
+                                </p></br></br>
+                                <ol>
+                                    <li>From the Cloud Manager home view click on the "Manage Organizations" tile. You
+                                        could also click on the Provider organizations Icon from the Icon menu.</li>
+                                    <img src="img/cloud-manager-manage-org.png" alt="Cloud Manager Manage Organizations"
+                                        width="80%"></br></br>
+                                    <li>Click on the add button to begin creating the new provider organization.</li>
+                                    <img src="img/cloud-manager-add-provider-organization.png"
+                                        alt="Add New provider Organization" width="80%"></br></br>
+                                    <li>Enter the name of the Organization details and the Organization Owner. In this
+                                        simple demo we will create a new user to be the Organization Admin.</li>
+                                    <pre>
+                                        <table>
+                                            <tr>
+                                                <td>Title</td>
+                                                <td>:</td>
+                                                <td>DemoOrg</td>
+                                            </tr>
+                                            <tr>
+                                                <td>User Registry</td>
+                                                <td>:</td>
+                                                <td>API Manager Local User Registry</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Type of user</td>
+                                                <td>:</td>
+                                                <td>New User</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Username</td>
+                                                <td>:</td>
+                                                <td>orgadmin</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td>:</td>
+                                                <td>orgadmin@demoorg.org</td>
+                                            </tr>
+                                            <tr>
+                                                <td>First Name</td>
+                                                <td>:</td>
+                                                <td>Admin</td>
+                                            </tr>
+                                            <tr>
+                                               <td>Last Name</td>
+                                                <td>:</td>
+                                                <td>Admin</td>
+                                             </tr>
+                                            <tr>
+                                                <td>Password</td>
+                                                <td>:</td>
+                                                <td>Use the password from you ocpadmin user</td>
+                                            </tr>
+                                        </table>
+                                    </pre>
+                                    <img src="img/cloud-manager-create-organization.png" alt="Create Organization"
+                                        width="80%"></br></br>
+                                    <li>Refresh the pag if the newly created Organization is not displayed.</li>
+                                    <li>Change from the Cloud Manager to the API Manager. Click on the IBM Cloud Pak
+                                        image button on the top left corner of the Cloud Manager. Once </li>
+                                    <img src="img/cloud-manager-switch-api-manager.png"
+                                        alt="Navigate to Cloud Pak Home Page" width="80%"></br></br>
+                                    <li>In the Cloud Pak UI home page, click on the "Design APIs" menu link, this will
+                                        launch the API Manager. Note you may or may not be promted for login. The
+                                        provider organisation we created uses admin user which is part of the Common
+                                        Services User Registry.</li>
+                                    <img src="img/cloud-pak-ui-design-apis.png" alt="Navigate to Design APIs"
+                                        width="80%"></br></br>
+                                    <li>When the API Manager opens you will still be loggd in as admin user we need to
+                                        sitch the account and slect the DemoOrg provider organization.</li>
+                                    <li>Select Switch Account in the top right hand side of the API Manager.</li>
+                                    <img src="img/api-manager-switch-account.png" alt="API Manger Switch account"
+                                        width="80%"></br></br>
+                                    <li>Click on the Continue with "API Manager User Registry" button.</li>
+                                    <img src="img/api-manager-login-api-user-registry.png"
+                                        alt="API Manger API User Registry" width="80%"></br></br>
+                                    <li>Login with the Orgadmin usename and password used when creating the
+                                        organization.</li>
+                                    <img src="img/api-manager-login-orgadmin.png"
+                                        alt="API Manger API User Registry OrgAdmin" width="80%"></br></br>
+                                    <li>Confirm the login with the Organization:DemoOrg and User:orgadmin.</li>
+                                    <img src="img/api-manager-home-small.png" alt="API Manger Home Page"
+                                        width="80%"></br></br>
+                                    <li>Click on the Manage Catalogs tile on the API Manager Home view.</li>
+                                    <img src="img/api-manager-manage-catalog.png" alt="API Manager Manage Catalogs"
+                                        width="80%"></br></br>
+                                    <li>Click Add on the Manage catalog view.</li>
+                                    <img src="img/api-manager-manage-catalog-add.png" alt="Manage Catalog Add"
+                                        width="80%"></br></br>
+                                    <li>Complete the Catalog definition and Click the create button.</li>
+                                    <img src="img/api-manager-create-catalog.png" alt="Manage Catalog Create"
+                                        width="80%"></br></br>
+                                    <li>Click the Demo Catalog tile</li>
+                                    <img src="img/api-manager-manage-catalog-demo.png" alt="Manage Catalog Demo Catalog"
+                                        width="80%"></br></br>
+                                    <li>Click on (1) the "Consumers" Tab and then Select click (2) Add to AND SELECT (3) Create Organization.</li>
+                                    <img src="img/api-manager-demo-catalog-add-consumer-org.png" alt="Manage Catalog Create"
+                                        width="80%"></br></br>
+                                    <li>Enter the consumer organisation information and the details for a new user called consumer admin. Click create</li>
+                                    <img src="img/consumer-org.png" alt="Consumer Org"
+                                            width="80%"></br></br>
+                                    <img src="img/consumer-org-owner.png" alt="Consumer Org Owner"
+                                            width="80%"></br></br>
+                                    <li>Click the Demo Catalog tile</li>
+                                    <img src="img/api-manager-manage-catalog-demo.png" alt="Manage Catalog Demo Catalog"
+                                        width="80%"></br></br>
+                                    <li>Click on the "Catalog Settings" Tab and then Select the "Portal" settings from
+                                        the left hand menu. Click the Create button to setup the Developer Portal for
+                                        the catalog.</li>
+                                    <img src="img/api-manager-demo-catalog.png" alt="API Manager Demo Catalog"
+                                        width="80%"></br></br>
+                                    <li>Select the portal-service from the select menu and click the Create button.</li>
+                                    <img src="img/api-manager-create-portal.png" alt="API Manager Create Portal"
+                                        width="80%"></br></br>
+                                    <li>The portal service will be initiated it will take a few minutes before it is
+                                        ready. After a
+                                        few minutes try the URL. If the portal loads proceed to mailtrap and follow the
+                                        instructions for setting the developer portal admin password.</li>
+                                    <img src="img/api-manager-developer-portal-created.png"
+                                        alt="API Manager Portal Created" width="80%"></br></br>
+                                    <li>Wait some time then copy the Developer portal URL and paste it in a <b>new
+                                            incognito browser</b>. This should help work around any insecure and
+                                        certificate warnings.</li>
+                                    <img src="img/api-manager-developer-portal-url-copy.png"
+                                        alt="API Manager Copy Portal URL" width="80%"></br></br>
+                                    <li>Click on the Show Advanced Button and Click proceed to site.</li>
+                                    <img src="img/developer-portal-proceed-to-site.png"
+                                        alt="Developer Portal Proceed to Site" width="80%"></br></br>
+                                    <li>Once you see the home page for the portal proceed to the next step to complete
+                                        the site setup by setting the admin password.</li>
+                                    <img src="img/developer-portal-home.png" alt="Developer Portal Home"
+                                        width="80%"></br></br>
+                                    <li>Switch to the Mail Trap tab or if it was closed reopen and Log In to Mail Trap
+                                        in new browser tab. In your Inbox you will see a email from the Developer Portal
+                                        to setup the admin password.</li>
+                                    <img src="img/mailtrap-developer-portal-admin.png"
+                                        alt="Mail Trap Developer Portal Admin" width="80%"></br></br>
+                                    <li>Copy the link in the email and paste to new ingognito tab.</li>
+                                    <li>Click Reset Button to continue.</li>
+                                    <img src="img/developer-portal-reset.png" alt="Developer Portal Reset"
+                                        width="80%"></br></br>
+                                    <li>Set the new password. In this example copy the admin password from the Cloud pak
+                                        Status tab of the configuration browser window. And then click Submit.</li>
+                                    <img src="img/developer-portal-admin-password-set.png" alt="Set Password"
+                                        width="50%"></br></br>
+                                    <li>This completes this section of the instruction for the API Connect.</li>
+                                </ol>
+                            </ol>
+                            <ol>
+
+                                <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item active">
+                                        <h4>Event End Point Managment Configuration</h4>
+                                    </li>
+                                </ol>
+                                <p class="mb-0">In this section of configuration we will prefer to use the OC CLI to
+                                    configure the custom resource definitions to connect the end point management and
+                                    the event gateays services to the API Managment.</br>
+                                    We will be configuring the End Point Manger so we have a uunified experience with
+                                    the API Management configured above.</br></br>We will first prepare for the
+                                    installation of Event Endpoint mangement
+                                    capability in the cp4i namespace. This is done by preparing the needed
+                                    configurations which includes.
+                                <ul>
+                                    <li>API Mangement JWKS (JSON Web Key Sets)</li>
+                                    <li>API Mangement Platform API</li>
+                                    <li>Trusted Certificates</li>
+                                </ul>
+                                </p>
+
+                                <li>Create variable for API Management JWKS</li>
+                                <div class="codeDiv">
+                                    <pre><code>APICONNECT_JWKS=$(oc get apiconnectcluster apic -o=jsonpath='{.status.endpoints[?(@.name=="jwksUrl")].uri}')
+                                </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo "APICONNECT_JWKS= $APICONNECT_JWKS"
+                                </code></pre>
+                                </div>
+                                <img src="img/jwks-out.png" alt="APICONNECT JWKS" width="80%"></br></br>
+                                <li>Create variable for API Connect Platform API</li>
+                                <div class="codeDiv">
+                                    <pre><code>APICONNECT_PLATFORM_API=$(oc get apiconnectcluster apic -o=jsonpath='{.status.endpoints[?(@.name=="platformApi")].uri}')
+                                </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo "APICONNECT_PLATFORM_API= $APICONNECT_PLATFORM_API"
+                                </code></pre>
+                                </div>
+                                <img src="img/api-connect-platform-api-out.png" alt="APICONNECT PLATFORM API"
+                                    width="80%"></br></br>
+                                <li>Create APIC platform cert secret</li>
+                                
+                                <div class="codeDiv">
+                                    <pre><code>APICONNECT_PLATFORM_API_HOSTNAME=$(echo "$APICONNECT_PLATFORM_API" | awk -F/ '{print $3}')
+                                                </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo "Retrieve certificate using hostname APICONNECT_PLATFORM_API_HOSTNAME= $APICONNECT_PLATFORM_API_HOSTNAME"
+                                                </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo | openssl s_client -connect $APICONNECT_PLATFORM_API_HOSTNAME:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > certificate.crt
+                                                </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>oc create secret generic apic-platform-cert --from-file=apic-platform.crt=certificate.crt
+                                                </code></pre>
+                                </div>
+                                <img src="img/apic-platform-cert-creation-out.png" alt="APICONNECT PLATFORM SECRET"
+                                    width="80%"></br></br>
+
+                                <li>Copy the gist "eem.yaml" file to a local file createEEM.yaml. Replace the
+                                    "{{JWKS_ENDPOINT}}" with the value of the API Mangement JWKS that was determined
+                                    earlier</li>
+
+
+                                <script
+                                    src="https://gist.github.com/leonardBlunt/3f587e149f73b5987b75d37b41519a92.js"></script>
+                                </br></br>
+
+                                <li>Save the updates to file as createEEM.yaml then apply the file in the environment
+                                </li>
+                                <div class="codeDiv">
+                                    <pre><code>oc apply -f createEEM.yaml
+                                </code></pre>
+                                </div>
+                                <img src="img/create-eem-demo.png" alt="Create EEM Demo" width="80%"></br></br>
+                                <li>We now need to wait for the Event Endpoint MNagment to start. You can periodically
+                                    run the following command until status reaches phase "Running"
+                                </li>
+                                <div class="codeDiv">
+                                    <pre><code>oc get EventEndpointManagement ademo-eem -o=jsonpath={'..phase'}
+                                </code></pre>
+                                </div>
+                                <li>Now we will create the Event Gateway. Determine the Event Mangement Gateway URL
+                                </li>
+                                <div class="codeDiv">
+                                    <pre><code>EEM_GATEWAY_URL=$(oc get eem ademo-eem -o=jsonpath='{.status.endpoints[?(@.name=="gateway")].uri}')"
+                                   </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo "EEM_GATEWAY_URL= $EEM_GATEWAY_URL"
+                                   </code></pre>
+                                </div>
+                                <img src="img/eem-gateway-url.png" alt="EEM gateway URL" width="80%"></br></br>
+
+                                <li>Copy the gist "egw.yaml" file to a local file createEGW.yaml. Replace the
+                                    "{EEM_GATEWAY_URL}}" with the value of the Event management Gateway URL.
+                                    earlier</li>
+                                <script
+                                    src="https://gist.github.com/leonardBlunt/e6b26ae0ef5e4cfe208ea38b0bec4bf3.js"></script>
+                                </br></br>
+
+                                <li>Save the updates to file as createEGW.yaml then apply the file in the environment
+                                </li>
+                                <div class="codeDiv">
+                                    <pre><code>oc apply -f createEGW.yaml
+                                </code></pre>
+                                </div>
+                                <img src="img/create-egw.png" alt="Create EGW " width="80%"></br></br>
+                                <li>Now we wait for the event gateway pods to start. You can periodically run the
+                                    following command until status reaches phase "Running"
+                                </li>
+                                <div class="codeDiv">
+                                    <pre><code>oc get EventGateway ademo-event-gw -o=jsonpath={'..phase'}
+                                </code></pre>
+                                </div>
+                                <li>Copy the gist "eem-roles.json" file to a local file eem-roles.json.
+                                </li>
+                                <script
+                                    src="https://gist.github.com/leonardBlunt/f318c696ff205cbd9f0271382db9135d.js"></script>
+                                </br></br>
+                                <li>Save the updates to eem-roles.json then patch the End Point Manager Secret with the
+                                    roles. Note the change of command for Mac versuses other systems
+                                </li>
+                                <b>MAC</b>
+                                <div class="codeDiv">
+                                    <pre><code>EEM_ROLES=$(cat eem-roles.json | base64)
+                                </code></pre>
+                                </div>
+                                <b>Non MAC</b>
+                                <div class="codeDiv">
+                                    <pre><code>EEM_ROLES=$(cat eem-roles.json | base64 -w0)
+                                </code></pre>
+                                </div>
+                                <b>Patch the secret</b>
+                                <div class="codeDiv">
+                                    <pre><code>RESPONSE=$(oc patch secret ademo-eem-ibm-eem-user-roles -n cp4i -p '{"data": {"user-mapping.json": "'$EEM_ROLES'"}}')
+                                </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo Patched ademo-eem-ibm-eem-user-roles $RESPONSE
+                                </code></pre>
+                                </div>
+                                <img src="img/eem-roles-patched.png" alt="EEM Roles patched " width="80%"></br></br>
+                                <li>Copy the gist "eem-users.json" file to a local file eem-users.json.
+                                </li>
+                                <script
+                                    src="https://gist.github.com/leonardBlunt/1d36e127a5cfb9c4177ca075e8958b1d.js"></script>
+                                </br></br>
+                                <li>Replace the string {{password}} with the same password used by "ocpadmin". if using
+                                    the vi editior can use the global replace as shown here. </li>
+                                <img src="img/replace-password.png" alt="Repalce Password" width="25%"></br></br>
+
+                                <li>Save the updates to eem-users.json then patch the End Point Manager Secret with the
+                                    users. Note the change of command for Mac versuses other systems
+                                </li>
+                                <b>MAC</b>
+                                <div class="codeDiv">
+                                    <pre><code>EEM_USERS=$(cat eem-users.json | base64)
+                                </code></pre>
+                                </div>
+                                <b>Non MAC</b>
+                                <div class="codeDiv">
+                                    <pre><code>EEM_USERS=$(cat eem-users.json | base64 -w0)
+                                </code></pre>
+                                </div>
+
+                                <b>Patch the secret</b>
+                                <div class="codeDiv">
+                                    <pre><code>RESPONSE=$(oc patch secret ademo-eem-ibm-eem-user-credentials -n cp4i -p '{"data": {"user-credentials.json": "'$EEM_USERS'"}}')
+                                </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo Patched ademo-eem-ibm-eem-user-credentials $RESPONSE
+                                </code></pre>
+                                </div>
+                                <img src="img/eem-users-patched.png" alt="EEM Users patched " width="80%"></br></br>
+                            </ol>
+                            <ol>
+
+                                <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item active">
+                                        <h4>Configure Event Gateway Key and Trust Stores</h4>
+                                    </li>
+                                </ol>
+                                <p class="mb-0">In this section of configuration we will use the apic ingress
+                                    certificates and eem certificates to establish trust stores that will be used for
+                                    the Client and Server TLS profiles.</br>
+                                </p>
+                                <li>Get API Manager Route</li>
+                                <div class="codeDiv">
+                                    <pre><code>API_EP=$(oc get route -n cp4i apic-mgmt-platform-api -o jsonpath='{.spec.host}')
+                                    </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo "API_EP=${API_EP}"
+                                    </code></pre>
+                                </div>
+
+                                <li>Get auth token for use with the API</li>
+                                <div class="codeDiv">
+                                    <pre><code>admin_password=$(oc get secret -n cp4i apic-mgmt-admin-pass -o json | jq -r .data.password | base64 --decode)
+                                    </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>curl -X POST https://${API_EP}/api/token -s -k -H "Content-Type: application/json" -H "Accept: application/json" \<br>&nbsp;&nbsp;&nbsp;&nbsp;-d "{ \"realm\": \"admin/default-idp-1\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"username\": \"admin\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"password\": \"${admin_password}\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"client_id\": \"599b7aef-8841-4ee2-88a0-84d49c4d6ff2\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"client_secret\": \"0ea28423-e73b-47d4-b40e-ddb45c48bb0c\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"grant_type\": \"password\" }" --retry 5 > out.json
+                                    </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>admin_token=`jq -r .access_token out.json`
+                                    </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo "admin_token=${admin_token}"
+                                    </code></pre>
+                                </div>
+                                <img src="img/access-token.png" alt="Access Token Commands"></br></br>
+                                <li>Get the admin organisation id this is needed for executing the API calls to the
+                                    Catalog Manager</li>
+                                <div class="codeDiv">
+                                    <pre><code>curl GET https://${API_EP}/api/orgs/admin \<br>&nbsp;&nbsp;&nbsp;&nbsp;-s -k -H "Content-Type: application/json" -H "Accept: application/json" \<br>&nbsp;&nbsp;&nbsp;&nbsp;-H "Authorization: Bearer ${admin_token}" --retry 5 > out2.json
+                                    </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>org_id=`jq -r .id out2.json`
+                                    </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo "org_id=${org_id}"
+                                    </code></pre>
+                                </div>
+                                <img src="img/org_id.png" alt="Admin Organisation ID"></br></br>
+                                <li>Retrieve the TLS certificates from the ademo-eem-ibm-eem-manager we will use this to
+                                    create the keystore and trust store for the Client TLS Profile on the gateway</li>
+                                <div class="codeDiv">
+                                    <pre><code>ca_crt=`oc get secret ademo-eem-ibm-eem-manager -o=jsonpath='{.data.ca\.crt}' | base64 -d | tr '\n\r' '*' | sed 's/*/\\\n\\\r/g'`
+                                    </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo "ca_crt=${ca_crt}"
+                                    </code></pre>
+                                </div>
+                                <img src="img/apic-ingress-ca_crt.png" alt="APIC Ingress CA_CRT"></br></br>
+                                <div class="codeDiv">
+                                    <pre><code>tls_crt=`oc get secret ademo-eem-ibm-eem-manager -o=jsonpath='{.data.tls\.crt}' | base64 -d | tr '\n\r' '*' | sed 's/*/\\\n\\\r/g'`
+                                    </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo "tls_crt=${tls_crt}"
+                                    </code></pre>
+                                </div>
+                                <img src="img/apic-ingress-tls-crt.png" alt="APIC Ingress TLS_CRT"></br></br>
+                                <div class="codeDiv">
+                                    <pre><code>tls_key=`oc get secret ademo-eem-ibm-eem-manager -o=jsonpath='{.data.tls\.key}' | base64 -d | tr '\n\r' '*' | sed 's/*/\\\n\\\r/g'`
+                                    </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo "tls_key=${tls_key}"
+                                    </code></pre>
+                                </div>
+                                <img src="img/apic-ingress-tls-key.png" alt="APIC Ingress TLS_KEY"></br></br>
+                                <li>Create the client keystore</li>
+                                <div class="codeDiv">
+                                    <pre><code>curl --request POST https://${API_EP}/api/orgs/${org_id}/keystores \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-s -k -H "Content-Type: application/json" -H "Accept: application/json" \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-H "Authorization: Bearer ${admin_token}" \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-d "{ \"name\": \"event-gateway-keystore\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"title\": \"Event Gateway Client Profile Keystore\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"summary\": \"\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"keystore\": \"${tls_key}${tls_crt}\"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}" -v --retry 5 --trace curl.out > out3.json
+                                    </code></pre>
+                                </div>
+                                <img src="img/create-keystore.png" alt="Create keystore"></br></br>
+                                <img src="img/keystore-out.png" alt="Keystore Out"></br></br>
+                                <li>Create the client truststore</li>
+                                <div class="codeDiv">
+                                    <pre><code>curl --request POST https://${API_EP}/api/orgs/${org_id}/truststores \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-s -k -H "Content-Type: application/json" -H "Accept: application/json" \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-H "Authorization: Bearer ${admin_token}" \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-d "{ \"name\": \"event-gateway-truststore\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"title\": \"Event Gateway Client Truststore\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"summary\": \"\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"truststore\": \"${ca_crt}\"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}" -v --retry 5 --trace curl.out > out4.json
+                                    </code></pre>
+                                </div>
+                                <img src="img/truststore-out.png" alt="Create truststore"></br></br>
+                                <li>Retrieve the TLS certificates from the ademo-eem-ibm-eem-manager-ca secret we will
+                                    use this to create the keystore for the Server TLS Profile on the gateway</li>
+                                <div class="codeDiv">
+                                    <pre><code>eem_tls_crt=`oc get secret ademo-eem-ibm-eem-manager-ca -o=jsonpath='{.data.tls\.crt}' | base64 -d | tr '\n\r' '*' | sed 's/*/\\\n\\\r/g'`
+                                    </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo "eem_tls_crt=${eem_tls_crt}"
+                                    </code></pre>
+                                </div>
+                                <img src="img/ademo-eem-tls-crt.png" alt="EEM TLS_CRT"></br></br>
+                                <div class="codeDiv">
+                                    <pre><code>eem_tls_key=`oc get secret ademo-eem-ibm-eem-manager-ca -o=jsonpath='{.data.tls\.key}' | base64 -d | tr '\n\r' '*' | sed 's/*/\\\n\\\r/g'`
+                                    </code></pre>
+                                </div>
+                                <div class="codeDiv">
+                                    <pre><code>echo "eem_tls_key=${tls_key}"
+                                    </code></pre>
+                                </div>
+                                <img src="img/ademo-eem-tls-key.png" alt="EEM TLS_KEY"></br></br>
+                                <li>Create the server keystore</li>
+                                <div class="codeDiv">
+                                    <pre><code>curl --request POST https://${API_EP}/api/orgs/${org_id}/keystores \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-s -k -H "Content-Type: application/json" -H "Accept: application/json" \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-H "Authorization: Bearer ${admin_token}" \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-d "{ \"name\": \"event-gateway-server-profile-key-store\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"title\": \"Event Gateway Server Profile Keystore\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"summary\": \"\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"keystore\": \"${eem_tls_key}${eem_tls_crt}\"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}" -v --retry 5 --trace curl.out > out5.json
+                                    </code></pre>
+                                </div>
+                                <img src="img/server-profile-keystore.png" alt="Server profile keystore"></br></br>
+                                <img src="img/server-keystore-out.png" alt="Server profile keystore out"></br></br>
+
+                            </ol>
+                            <ol>
+
+                                <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item active">
+                                        <h4>Configure Event Gateway Client and Server TLS Profiles</h4>
+                                    </li>
+                                </ol>
+                                <li>With the key stores created we will switch back to use the web UI for the remaining
+                                    configurations. Logon to the Cloud Manager. Follow the steps for this as described
+                                    in section <a href="#notifications">Configure Notifications In the API Manager</a>
+                                    step 1. Click Manage Resources</li>
+                                <img src="img/manage-resources.png" alt="Cloud Manger Home"></br></br>
+                                <li>Click on TLS from the left hand menu.</li>
+                                <img src="img/cloud-manager-resources-tls.png" alt="Cloud Manger Home"></br></br>
+                                <li>Scroll down to the the Keystore and Truststore sections you can observer the
+                                    Keystores and Truststore created above.</li>
+                                <img src="img/keystore-list.png" alt="Keystore List"></br></br>
+                                <img src="img/truststore-list.png" alt="Truststore List"></br></br>
+                                <li>Click "Create" on the TLS Client Profile.</li>
+                                <img src="img/cloud-manager-create-client-tls-profile.png"
+                                    alt="Create Client TLS Profile"></br></br>
+                                <li>Enter the "Title" for the TLS Client Profile "Event Gateway TLS Client Profile".
+                                    Retain the default for the Protocols (TLS v1.2 and TLS v1.3)</li>
+                                <img src="img/cloud-manager-create-client-tls-profile-1.png"
+                                    alt="Create Client TLS Profile Title"></br></br>
+                                <li>Select the Keystore and Truststore for the Client Profile (Event Gateway Client
+                                    Profile Keystore, Event Gsteway Client Profile Truststore)</li>
+                                <img src="img/cloud-manager-create-client-tls-profile-2.png"
+                                    alt="Create Client TLS Profile keystore truststore"></br></br>
+                                <li>Retain the selected default Ciphers</li>
+                                <img src="img/cloud-manager-create-client-tls-profile-3.png"
+                                    alt="Create Client TLS Profile Ciphers"></br></br>
+                                <li>Click "Save" and create the TLS Client Profile</li>
+                                <img src="img/cloud-manager-create-client-tls-profile-4.png"
+                                    alt="Create Client TLS Profile Save"></br></br>
+                                <li>Click "Create" on the TLS Server Profile.</li>
+                                <img src="img/cloud-manager-create-server-tls-profile-0.png"
+                                    alt="Create Server TLS Profile"></br></br>
+                                <li>Enter the "Title" for the TLS Server Profile "Event Gateway TLS Server
+                                    Profile".Retain the default for the Protocols (TLS v1.2 and TLS v1.3) </li>
+                                <img src="img/cloud-manager-create-server-tls-profile-1.png"
+                                    alt="Create Server TLS Title"></br></br>
+                                <li>Set Mutual Authenticatio (None), Limit Renegotiation (true), Keystore (Event Gateway
+                                    Server Profile Keystore) and Truststore (None).</li>
+                                <img src="img/cloud-manager-create-server-tls-profile-2.png"
+                                    alt="Create Server TLS Mutual Auth, Limit Reneg, Keystore"></br></br>
+                                <li>Retain the selected default Ciphers</li>
+                                <img src="img/cloud-manager-create-server-tls-profile-3.png"
+                                    alt="Create Server TLS Ciphers"></br></br>
+                                <li>Click "Save" and create the TLS Server Profile</li>
+                                <img src="img/cloud-manager-create-server-tls-profile-4.png"
+                                    alt="Create Server TLS Profile Save"></br></br>
+                            </ol>
+                            <ol>
+
+                                <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item active">
+                                        <h4>Configure Event Gateway Service</h4>
+                                    </li>
+                                </ol>
+                                <p>We will now confiugre the Event Gateway service for this we will need the EEM Manager
+                                    (ademo-eem-ibm-eem-apic) and Gateway (ademo-event-gw-ibm-egw-rt))routes</p>
+                                <li>Select Networking (1) Select Routes (2) from left hand menu and filter the projects
+                                    to cp4i (3) </li>
+                                <img src="img/openshift-networking-routes-cp4i.png"
+                                    alt="OpenShift Networking Routes"></br></br>
+                                <li>Open in a new tab the ademo-eem-ibm-eem-apic route</li>
+                                <li>Open in a new tab the ademo-event-gw-ibm-egw-rt route</li>
+                                <li>In the Cloud Manger UI Navigate to the topology menu in using the lefthand icon menu
+                                </li>
+                                <img src="img/cloud-manager-topology-icon-menu.png"
+                                    alt="Cloud Manager Topology Icon Menu" width="50%"></br></br>
+                                <li>In the default availability zone Click "Register service"</li>
+                                <img src="img/cloud-manager-topology-register-service.png"
+                                    alt="Cloud Manager Topology Reegister Service" width="50%"></br></br>
+                                <li>Fill the Register Gateway Service Form 1) Title Details</li>
+                                <img src="img/create-gateway-service-title.png" alt="Create Gateway Service Title"
+                                    width="80%"></br></br>
+                                <li>Fill the Register Gateway Service Form 2) Service endpoint configuration</li>
+                                <ul>
+                                    <li>Copy the Location from the ademo-eem-ibm-eem-apic route and paste to the
+                                        "Management endpoint on the gateway service" field</li>
+                                    <img src="img/host-ademo-eem-ibm-eem-apic.png" alt="Route ademo-eem-ibm-eem-apic"
+                                        width="80%"></br></br>
+                                    <li>Select the TLS Client Profile that was created earlier (Event Gateway Client
+                                        Profile:1.0.0)</li>
+                                </ul>
+                                <img src="img/create-gateway-service-endpoint-configuration.png"
+                                    alt="Create Gateway Service endpoint configuration" width="80%"></br></br>
+                                <li>Fill the Register Gateway Service Form 3) API Invocation Endpoint</li>
+                                <ul>
+                                    <li>Copy the Location from the host of the ademo-event-gw-ibm-egw-rt route paste to
+                                        the "API endpoint base" field</li>
+                                    <img src="img/host-ademo-event-gw-ibm-egw-rt.png"
+                                        alt="Route ademo-event-gw-ibm-egw-rt" width="80%"></br></br>
+                                    <li>Add port :443 on end of copied route</li>
+                                    <li>Select the TLS Server Profile that was created earlier (Event Gateway Server
+                                        Profile:1.0.0)</li>
+
+                                </ul>
+                                <img src="img/create-gateway-service-invocation-endpoint.png"
+                                    alt="Create Gateway Service Invocation Endpoint" width="80%"></br></br>
+                                <li>Click "Save"</li>
+
+
+                            </ol>
+                            <ol>
+
+                                <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item active">
+                                        <h4>Connect The Endpoint Manager to the Event Streams</h4>
+                                    </li>
+                                </ol>
+                                <p>In this section we will connect the event streams cluster to the end point manager</p>
+                                <li>Get the Event Cluster Connection Information from the Events UI. Navigate to the Cloud Pak Navigator, from the integration instances open the ft-eventstreams in a new browser tab </li>
+                                <img src="img/cloud-pak-ft-eventstreams.png"
+                                    alt="Cloud Pak Integration Instance Event Streams" width="80%"></br></br>
+                                <li>Click the "Connect to Cluster" Tile</li>
+                                    <img src="img/event-streams-ui-connect-to-cluster-tile.png"
+                                        alt="Event Streams UI Connect to the Cluster" width="80%"></br></br>
+                                <li>Copy the internal bootstrat address with the scram credentials</li>
+                                        <img src="img/event-streams-ui-connect-to-cluster-tile.png"
+                                            alt="Event Streams UI Connect to the Cluster" width="80%"></br></br>
+                                <li>Copy the internal bootstrat address with the scram credentials</li>
+                                <img src="img/event-streams-connect-to-cluster-scram.png"
+                                                alt="Event Streams Connect to the Cluster scram" width="80%"></br></br>
+                                <li>Return to the Platofrm Navigator and open the Event End Point Managment UI in a new incognito browser</li>
+                                <img src="img/event-streams-connect-to-cluster-scram.png"
+                                                alt="Event Streams Connect to the Cluster scram" width="80%"></br></br>
+                                <li>Launch the End Point Managment UI from the integrations instances view</li>
+                                <img src="img/eem-ui.png"
+                                                alt="Event End Point Manager UI Link"></br></br>
+                                <li>Login as "eem-admin"</li>
+                                <img src="img/eem-login.png"
+                                                alt="Event End Point Manager Login"></br></br>
+                                <li>Click the "Topics" icon from the icon menu</li>
+                                <img src="img/eem-topics-menu.png"
+                                alt="Event End Point Manager Topic Menu" width="80%"></br></br>
+                                <li>Click the "Add Topic" button from the add topic view</li>
+                                <img src="img/eem-add-topic.png"
+                                alt="Event End Point Manager Add Topic" width="80%"></br></br>
+                                <li>Click the "Add New Cluster" button</li>
+                                <img src="img/eem-add-topic-add-new-cluster.png"
+                                alt="Event End Point Manager Add Topic Add New Cluster" width="80%"></br></br>
+                                <li>Enter the cluster name "ft-eventstreams" on the cliuster information view and click next</li>
+                                <img src="img/eem-add-topic-cluster-information.png"
+                                alt="Event End Point Manager New Cluster Information" width="80%"></br></br>
+                                <li>Enter the broker server URL copied from the Event Streams UI brokers. Click "Accept all certificates" checkbox. Click Next</li>
+                                <img src="img/eem-add-topic-cluster-servers.png"
+                                alt="Event End Point Manager New Cluster Servers" width="80%"></br></br>
+                                <li>Get the scram credentails for the event-admin user which we will use to connect to the topic</li>
+                                <img src="img/event-admin-secret.png"
+                                alt="Event Admin Secret" width="80%"></br></br>
+                                <li>Enter the scram credentials entering the Kafka User event-admin and its password</li>
+                                <img src="img/eem-add-topic-cluster-users-credentials.png"
+                                alt="Event End Point Manager New Cluster Credentials" width="80%"></br></br>
+                                <li>Select the ft-status topic from available topics and finish the add topic wizard.</li>
+                                <img src="img/eem-add-topic-topics-ft-status.png"
+                                alt="Event End Point Manager Topics List" width="80%"></br></br>
+                                <li>Select the ft-status topic from topics lists</li>
+                                <img src="img/eem-topics-list.png"
+                                alt="Event End Point Manager Topics List" width="80%"></br></br>
+                                <li>Click the "Export AsyncAPI for IBM API Connect"</li>
+                                <img src="img/ft-status-export-async.png"
+                                alt="Event End Point Manager Export AsyncAPI" width="80%"></br></br>
+
+                            
+                            </ol>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">
+                                    <h4>Configure Event Gateway For use by The DemoCatalog</h4>
+                                </li>
+                            </ol>
+                            <p>We will now add the event gateway server to the catalog</p>
+                            <ol>
+                                <li>Logon to the API Manager from Click on the Manage Catalogs Tile. Click on the Demo Catalog. Click on the "Catalog Setting" tab.</li>
+                                <img src="img/api-manager-edit-gateway-services.png"
+                                alt="edit gateway settings" width="80%"></br></br>
+                                <li>Select the EEM Gateway.</li>
+                                <img src="img/api-manager-eem-gateway-service.png"
+                                alt="eem gatway service" width="80%"></br></br>
+
+                            </ol>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">
+                                    <h4>Define Async API</h4>
+                                </li>
+                            </ol>
+                            <p>We will now define an ASYNC API that could be subsscribed and consumed by applications.</p>
+                            <ol>
+                                <li>Click the Home icon on the icon menu or logon to the API Manger if you have been logged out. Click the Develop API Products</li>
+                                <img src="img/api-manager-develop-api-products.png"
+                                alt="develop api" width="80%"></br></br>
+                                <li>API Manager Click "Add" click "API".</li>
+                                <img src="img/api-manager-develop-api-add.png"
+                                alt="catalog settings" width="80%"></br></br>
+                                <li>Select the "AsyncAPI" Tab and click "Next"</li>
+                                <img src="img/api-manager-add-async-api.png"
+                                alt="catalog settings" width="80%"></br></br>
+                                <li>Upload the ft-status.yaml file that was created when we downlaoded the AsyncAPI definition from the Topic in EEM.</li>
+                                <img src="img/api-manager-add-async-api-2.png"
+                                alt="catalog settings" width="80%"></br></br>
+                                <li>Click Next on the preview view</li>
+                                <li>Click Activate API and select the "DemoCatalog as the target catalog and CLick Next</li>
+                                <img src="img/api-manager-add-async-api-3.png"
+                                alt="Active API" width="80%"></br></br>
+                                <li>The API summary will be displayed</li>
+                                <img src="img/api-manager-add-async-api-4.png"
+                                alt="Active API Summary" width="80%"></br></br>
+
+
+                                <p>Managing granular access to topics would normally require a Kafka administrator to create and maintain multiple access control lists (ACLs). IBM Event Endpoint Manager enables consumers to self-administer their own access to topics. The Kafka administrator need only set up access between the Kafka cluster and the event gateway. From that point onward, the person deciding which topics the consumers can subscribe to no longer needs to be a Kafka specialist.</p>
+
+
+                            </ol>
+                    
+
+                        </div>
+
+                    </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; IBM Cloud Pak®</div>
+                        <div>
+                            <a href="https://www.ibm.com/us-en/privacy?lnk=flg-priv-usen">Privacy Policy</a>
+                            &middot;
+                            <a href="https://www.ibm.com/legal?lnk=flg-tous-usen">Terms of use</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>

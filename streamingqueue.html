@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        function testapplication() {
+            shell_exec = shell_exec('ls /Users/sujathasureshkumar/Documents/GitHub/sujatha-sureshkmr.github.io/jms/')
+            alert(shell_exec);
+        }
+
+
+        function myalertpodeventstreams() {
+            alert("Installed Operators -> IBM Event Streams -> EventStreams");
+        }
+        function myalertpodeventstreamsuser() {
+            alert("Installed Operators -> IBM Event Streams -> Kafka User");
+        }
+        function myalertpodeventTopic() {
+            alert("Installed Operators -> IBM Event Streams -> Kafka Topic");
+        }
+        function copyToClipboard(element) {
+    // Get the <pre> element
+    const preTag = document.getElementById(element);
+
+    // Create a copy button element
+    const copyButton = document.createElement("span");
+    copyButton.innerText = "Copy";
+    copyButton.classList.add("copy-button");
+
+    // Append the copy button to the <pre> tag
+    preTag.appendChild(copyButton);
+
+    // Add click event listener to the copy button
+    copyButton.addEventListener("click", () => {
+        // Hide the copy button temporarily
+        copyButton.style.display = "none";
+
+        // Create a range and select the text inside the <pre> tag
+        const range = document.createRange();
+        range.selectNode(preTag);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+
+        try {
+            // Copy the selected text to the clipboard
+            document.execCommand("copy");
+
+            // Alert the user that the text has been copied
+            copyButton.innerText = "Copied!";
+            setTimeout(function() {
+                copyButton.innerText = "Copy";
+            }, 2000);
+        } catch (err) {
+            console.error("Unable to copy text:", err);
+        } finally {
+            // Show the copy button again
+            copyButton.style.display = "inline";
+
+            // Deselect the text
+            window.getSelection().removeAllRanges();
+        }
+    });
+}
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        .codeDiv {
+            border: 1px #0000006e;
+            background-color: #f8f8f8;
+            text-align: left;
+            vertical-align:text-bottom;
+            color: #da467d;
+        }
+        pre {
+        position: relative;
+        background: #d3d6db;
+        padding: 10px;
+        font-size: 15px;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        border: 1px solid #e6e7e9;
+        
+        }
+        .copy-button {
+            position: absolute;
+            top: 2px;
+            right: 10px;
+            cursor: pointer;
+            color: #fff;
+            background: gray;
+            border-radius: 0.5em;
+            padding: 2px 7px;
+            }
+    
+        .copy-button:hover {
+        color: #000;
+        }
+    </style>
+</head>
+
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="index.html">IBM CSM</a>
+
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+        <a class="navbar-brand ps-3" href="index.html">Integration Skills Launchpad</a>
+        <!-- Navbar Search
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>-->
+        <!-- Navbar
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>-->
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link" href="content.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Table Of Contents
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Overview
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Integration Capabilities</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Prepare
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="cp4isetuppreexisting.html">Existing OCP Configuration</a>
+                                <a class="nav-link" href="cp4isetupnewoperators.html">Install Integration Operators</a>
+                            </nav>
+                        </div>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                            aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Configure
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="mqsetup.html">Messaging Queue</a>
+                                <a class="nav-link" href="eventstreamssetup.html">Events Cluster</a>
+                                <a class="nav-link" href="streamingqueue.html">Streaming Queue</a>
+                                <a class="nav-link" href="apiSetup.html">API and EEM</a>
+                                <a class="nav-link" href="appConnectEnterprise.html">App Connect Enterprise</a>
+
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages1">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Build
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="apiToMQUsingACEDesigner.html">API to MQ Using Ace</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Run
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages2" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="testapplication.html">Testing Applications</a>
+                                <a class="nav-link" href="run.html">Scenario Walkthrough</a>
+                            </nav>
+                        </div>
+                        <div class="sb-sidenav-menu-heading">Environment Guides</div>
+                        <a class="nav-link" href="logonInformation.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Environment Details
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Add ons</div>
+                        <a class="nav-link" href="glossary.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Glossary
+                        </a>
+                        <!-- <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Charts
+                            </a>
+                            <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
+                            </a> -->
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">IBM CSM</div>
+
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h2 class="mt-4">Configure Streaming Queue</h2>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">
+                                    <h4 id="overview">Overview</h4>
+                                </li>
+                            </ol>
+
+                            <p class="mb-0">
+                                Kafka Connect with IBM Event Streams allows you to seamlessly integrate Kafka with various data sources and sinks, enabling real-time data streaming and data synchronization between different systems in your architecture. It simplifies the process of building and managing data pipelines, making it easier to work with data in a Kafka-based environment.<br>
+                            </p>
+                            <!--<img src="assets/img/CP4ISetup/MQ_Architecture.png" alt="Usecase" class="center"
+                                object-fit="none" />-->
+
+                            <p class="mb-0"> We will now setup and configure streaming queue.</p> </br>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">
+                                    <h4 id="map">EventStreams</h4>
+                                </li>
+                            </ol>
+                            <p class="mb-0">We will now access eventstreams.</p>
+                            <ol>
+                                <li>Go to bastion server -> login to ocp</li>
+                                <li>Execute the following command copy the route from oc get routes output</li>
+                                
+                                <div class="codeDiv" onclick="copyToClipboard('myPreTag')">
+                                    <pre id="myPreTag">oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge 
+                                    </br>oc get routes -n openshift-image-registry -o custom-columns=:.spec.host --no-headers</pre>
+                                    <script src="script.js"></script>
+                                    </div>
+                                <img src="assets/img/CP4ISetup/image079.png" alt="Usecase" class="center"
+                                    object-fit="none" />
+                                <li>Go to ocp console -> workloads -> secret -> event-admin -> copy the password</li>
+                                <img src="assets/img/CP4ISetup/image082.png" alt="Usecase" class="center"
+                                    object-fit="none" />
+                                <li>Go to CloudPak for Integration console -> Integration Instances -> click "ft-eventstreams" </li>
+                                <img src="assets/img/CP4ISetup/image083.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                            </ol>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">
+                                    <h4 id="map">Generate SCRAM credentials for eventstreams</h4>
+                                </li>
+                            </ol>
+                            <p class="mb-0">We will now generate SCRAM credentials </p>
+                            <ol>
+                                <li>use username as "event-admin" and password (use the password retreieved from secret)</li>
+                                <img src="assets/img/CP4ISetup/image084.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                <li>Click "Connect to this cluster"</li>
+                                <img src="assets/img/CP4ISetup/image085.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                <li>Go to Internal -> Click "Generate SCRAM credentials"</li>
+                                <img src="assets/img/CP4ISetup/image086.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                <li>Use credential name "ft-evs-int-2", choose "Produce messages, consume messages and create topics and schemas". Click next.</li>
+                                <img src="assets/img/CP4ISetup/image087.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                <li>Choose "All Topics". Click next.</li>
+                                <img src="assets/img/CP4ISetup/image088.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                <li>Choose "All Consumer Groups". Click next.</li>
+                                <img src="assets/img/CP4ISetup/image089.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                <li>Choose "All Transaction ID". Click Generate Credentials.</li>
+                                <img src="assets/img/CP4ISetup/image090.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                <li>You will find the credentials generated.</li>
+                                <img src="assets/img/CP4ISetup/image091.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                <li>You will also find the credentials created in the secret.</li>
+                                <img src="assets/img/CP4ISetup/image092.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                <li>Go to External -> Click "Generate SCRAM credentials". Name: "ft-evs-cred-ext",Produce messages: Choose "All Topics", consume messages : "All Consumer Groups", create topics and schemas : "All Transaction ID", "Generate Credentials".</li>
+                                <img src="assets/img/CP4ISetup/image095.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                <li>Go to ocp console -> kube:admin -> copy login command</li>
+                                <img src="assets/img/CP4ISetup/image077.png" alt="Usecase" class="center"
+                                    object-fit="none" />
+                                <li>Copy API token from the login command details</li>
+                                <img src="assets/img/CP4ISetup/image078.png" alt="Usecase" class="center"
+                                    object-fit="none" />
+                                </ol>
+                                <ol class="breadcrumb mb-4">
+                                    <li class="breadcrumb-item active">
+                                        <h4 id="map">KafkaConnect</h4>
+                                    </li>
+                                </ol>
+                                <p class="mb-0">We will now create Kafka Connect.</p>
+                                <ol>
+                                <li>Go to Workloads -> secret -> project (cp4i) -> Create image pull secret -> update following information -> click save</li>
+                                <div class="codeDiv" onclick="copyToClipboard('myPreTag2')">
+                                    <pre id="myPreTag2">oc get routes -n openshift-image-registry -o custom-columns=:.spec.host --no-headers</pre>
+                                    <script src="script.js"></script>
+                                    </div>
+                                <div class="card-body">
+                                    <table id="datatablesSimple">
+                                        <thead>
+                                            <tr>
+                                                <th style="border:1px solid black;border-collapse:collapse;">Option</th>
+                                                <td style="border:1px solid black;border-collapse:collapse;">Value</td>
+                                                <td style="border:1px solid black;border-collapse:collapse;">Remarks</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th style="border:1px solid black;border-collapse:collapse;">Secret name</th>
+                                                <td style="border:1px solid black;border-collapse:collapse;">cp4i-image-stream</td>
+                                                <td style="border:1px solid black;border-collapse:collapse;"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="border:1px solid black;border-collapse:collapse;">Registry server address</th>
+                                                <td style="border:1px solid black;border-collapse:collapse;">paste the output of the oc get routes for openshift-image-registry</td>
+                                                <td style="border:1px solid black;border-collapse:collapse;">Example: default-route-openshift-image-registry.apps.daffy-ak48g5wg.cloud.techzone.ibm.com</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="border:1px solid black;border-collapse:collapse;">Username</th>
+                                                <td style="border:1px solid black;border-collapse:collapse;">oc</td>
+                                                <td style="border:1px solid black;border-collapse:collapse;">Example: sha256~B0jEABlqy1TGZqJCrJ1uxLgjenL_37m9Kp0oB2wFj1Y</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="border:1px solid black;border-collapse:collapse;">Password</th>
+                                                <td style="border:1px solid black;border-collapse:collapse;"> <b>paste API token</b></td>
+                                                <td style="border:1px solid black;border-collapse:collapse;"></td>
+                                            </tr>
+                                        </tbody>
+                                        </table>
+                                        </div>
+                                        <img src="assets/img/CP4ISetup/image080.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+
+                                        <li>Go to ocp console -> Operators -> Installed Operators -> IBM Event Streams -> kafka connect -> create kafka connect -> Yaml view -> paste the yaml code before</li>
+                                        <li>Note: you will need to change output -> image variable from oc get routes. For example:  </li>
+                                        
+                                        <div class="codeDiv" onclick="copyToClipboard('myPreTag2')">
+                                            <pre id="myPreTag2">oc get routes -n openshift-image-registry -o custom-columns=:.spec.host --no-headers</pre>
+                                            <script src="script.js"></script>
+                                            </div>
+                                        <script src="https://gist.github.com/sujatha-sureshkmr/96d0a11b2c32249a4898a154461a3b2d.js"></script>
+                                        <img src="assets/img/CP4ISetup/image081.png" alt="Usecase" class="center"
+                                            object-fit="none" />
+                                        <li>check 1: verify build config created. Go to Builds -> BuildsConfigs</li>
+                                        <img src="assets/img/CP4ISetup/image093.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                        <li>check 2: verify build created and completed successfully. Go to Builds -> Builds</li>
+                                        <img src="assets/img/CP4ISetup/image094.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                        <li>check 3: pods are created and successfully running. Note: This would take 3 to 5 mins to complete. Go to workloads -> pods.</li>
+                                        <img src="assets/img/CP4ISetup/image096.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                        <li>check 4: kafka connect container created and running successfully. Go to Operators -> Installed Operators -> IBM Event Streams -> Kafka Connect.</li>
+                                        <img src="assets/img/CP4ISetup/image097.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                        <li>Kafka connector Go to Operators -> Installed Operators -> IBM Event Streams -> Kafka Connector -> Create Kafka Connector -> yaml view -> update the code given below</li>
+                                        <img src="assets/img/CP4ISetup/image106.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+                                        <script src="https://gist.github.com/sujatha-sureshkmr/6c1dfb187bf736dca96e0a284cd23d90.js"></script>
+                                        <li>Kafka connector is successfully created.</li>
+                                        <img src="assets/img/CP4ISetup/image107.png" alt="Usecase" class="center"
+                                        object-fit="none" />
+
+                            </ol>
+                        </div>
+                    </div>
+                    </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; IBM Cloud Pak®</div>
+                        <div>
+                            <a href="https://www.ibm.com/us-en/privacy?lnk=flg-priv-usen">Privacy Policy</a>
+                            &middot;
+                            <a href="https://www.ibm.com/legal?lnk=flg-tous-usen">Terms of use</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
+</body>
+
+</html>

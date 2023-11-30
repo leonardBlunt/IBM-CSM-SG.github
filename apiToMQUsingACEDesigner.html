@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>CP4I - Messaging</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <script>
+
+
+        function myalertnewapifield() {
+            alert("1. Add new fields in swagger.json from other resources \n2. add it in getOrder_Mapping.map \n3.Regenerate bar files \n4.Upload the bar files and test it to confirm the new parameters are added.");
+        }
+        function myalertpodeventstreamsuser() {
+            alert("Installed Operators -> IBM Event Streams -> Kafka User");
+        }
+        function myalertpodeventTopic() {
+            alert("Installed Operators -> IBM Event Streams -> Kafka Topic");
+        }
+        function copyToClipboard(element) {
+            // Get the <pre> element
+            const preTag = document.getElementById(element);
+
+            // Create a copy button element
+            const copyButton = document.createElement("span");
+            copyButton.innerText = "Copy";
+            copyButton.classList.add("copy-button");
+
+            // Append the copy button to the <pre> tag
+            preTag.appendChild(copyButton);
+
+            // Add click event listener to the copy button
+            copyButton.addEventListener("click", () => {
+                // Hide the copy button temporarily
+                copyButton.style.display = "none";
+
+                // Create a range and select the text inside the <pre> tag
+                const range = document.createRange();
+                range.selectNode(preTag);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+
+                try {
+                    // Copy the selected text to the clipboard
+                    document.execCommand("copy");
+
+                    // Alert the user that the text has been copied
+                    copyButton.innerText = "Copied!";
+                    setTimeout(function () {
+                        copyButton.innerText = "Copy";
+                    }, 2000);
+                } catch (err) {
+                    console.error("Unable to copy text:", err);
+                } finally {
+                    // Show the copy button again
+                    copyButton.style.display = "inline";
+
+                    // Deselect the text
+                    window.getSelection().removeAllRanges();
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .codeDiv {
+            border: 1px #0000006e;
+            background-color: #f8f8f8;
+            text-align: left;
+            vertical-align: text-bottom;
+            color: #da467d;
+        }
+
+        pre {
+            position: relative;
+            background: #d3d6db;
+            padding: 10px;
+            font-size: 15px;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            border: 1px solid #e6e7e9;
+
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 2px;
+            right: 10px;
+            cursor: pointer;
+            color: #fff;
+            background: gray;
+            border-radius: 0.5em;
+            padding: 2px 7px;
+        }
+
+        .copy-button:hover {
+            color: #000;
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="index.html">IBM CSM</a>
+
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+        <a class="navbar-brand ps-3" href="index.html">Integration Skills Launchpad</a>
+        <!-- Navbar Search
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>-->
+        <!-- Navbar
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>-->
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link" href="content.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Table Of Contents
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Overview
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Integration Capabilities</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Prepare
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="cp4isetuppreexisting.html">Existing OCP Configuration</a>
+                                <a class="nav-link" href="cp4isetupnewoperators.html">Install Integration Operators</a>
+                            </nav>
+                        </div>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                            aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Configure
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="mqsetup.html">Messaging Queue</a>
+                                <a class="nav-link" href="eventstreamssetup.html">Events Cluster</a>
+                                <a class="nav-link" href="streamingqueue.html">Streaming Queue</a>
+                                <a class="nav-link" href="apiSetup.html">API and EEM</a>
+                                <a class="nav-link" href="appConnectEnterprise.html">App Connect Enterprise</a>
+
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages1">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Build
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="apiToMQUsingACEDesigner.html">API to MQ Using Ace</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Run
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages2" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="testapplication.html">Testing Applications</a>
+                                <a class="nav-link" href="run.html">Scenario Walkthrough</a>
+                            </nav>
+                        </div>
+                        <div class="sb-sidenav-menu-heading">Environment Guides</div>
+                        <a class="nav-link" href="logonInformation.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Environment Details
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Add ons</div>
+                        <a class="nav-link" href="glossary.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Glossary
+                        </a>
+                        <!-- <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Charts
+                            </a>
+                            <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
+                            </a> -->
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">IBM CSM</div>
+
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Develop Low Code API to MQ Connection using ACE MQ Connector</h1>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">
+                                    <h4 id="overview">Overview</h4>
+                                </li>
+                            </ol>
+                            <p class="mb-0">
+                                In this section we will explore how we can utilise locode connectors to build APis for
+                                use with a variety of connectors. In this case we will connect to the earlier created
+                                Queue Manager. The Flow will result in a API deployed and exposed from API connect with
+                                the connector running on the integration designer and connected to IBM MQ. The picture
+                                below illustrates the development and flow that will be implemented
+
+                            </p>
+                            <img src="img/apic-to-mq.png" alt="ACE Designer to MQ" width="80%">
+                        </div>
+                    </div>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item active">
+                            <h4>Connect to MQ From Integration Designer</h4>
+                        </li>
+                    </ol>
+                    <p class="mb-0">In this section we will design a simple API and build the integration flow using the
+                        MQ connector.
+                    </p></br>
+                    <ol>
+                        <li>Open the Integration Designer in a new tab by clicking on the ace-design link in the
+                            Integration Instances. This can also be done from the Platform Navigator home page by
+                            selecting the Integration Design menu link.</li>
+                        <img src="img/ace-design-open.png" alt="ACE Open In new Tab" width="80%"></br></br>
+                        <li>Click on the Catalog Icon on the Icon manu and navigate the the connectors catalog.</li>
+                        <img src="img/ace-design-mq-catalog.png" alt="ACE Design Catalog" width="80%"></br></br>
+                        <li>Enter MQ in the search and select the MQ connector. Enter the MQ Connection details. Click
+                            Connect and yes to promt to connect to the Queue Manager</li>
+                        <table>
+                            <tr>
+                                <th colspan="3">Settings</th>
+                                <th>Values</th>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Queue Manager</td>
+                                <td>fundtransfer</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Queue Manager Host</td>
+                                <td>Enter the Host value from your fundtransfer service (fundtransfer-ibm-mq)
+                                    <img src="img/queue-manager-host.png" alt="Queue Manager Host"
+                                        width="80%"></br></br>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="3">Listener Port</td>
+                                <td>1414</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Channel Name</td>
+                                <td>FUNDINTCHL</td>
+                            </tr>
+                        </table>
+                        <img src="img/mq-catalog-settings.png" alt="ACE Design MQ Settings" width="80%"></br></br>
+                        <li>Click the Home Icon on the icon menu. Click "Create Flows for API" tile.</li>
+                        <img src="img/create-flows-api-tile.png" alt="Create Flows API Tile" width="80%"></br></br>
+                        <li>Enter "fundTransfer into the model name</li>
+                        <img src="img/fundtransfer-model.png" alt="Fund Transfer Model" width="80%"></br></br>
+                        <li>We will now design a simple interface for the purpose of the example the data is less of a
+                            concern that showing the flow of data through the integration system. Add a few simple
+                            fields for the example as shown here.</li>
+                        <img src="img/simple-api-design.png" alt="Fund Transfer Model properties" width="80%"></br></br>
+                        <li>Cick on the "Operations" tab and add a Create fundTransfer operation.</li>
+                        <img src="img/create-fund-transfer.png" alt="Create Fund transfer operation"
+                            width="80%"></br></br>
+                        <li>Cick on"Implement Flow".</li>
+                        <img src="img/implement-flow.png" alt="Create Fund transfer implement flow"
+                            width="80%"></br></br>
+                        <li>Select the Response Node. To keep it simple we will simply return the account number in the
+                            response.</li>
+                        <img src="img/response-node-mapping.png" alt="Message ID and account" width="80%"></br></br>
+                        <li>Cick on plus icon in the flow to add a MQ node.</li>
+                        <li>Select your MQ Account and choose the put message action.</li>
+                        <img src="img/add-mq-node.png" alt="MQ Account Action" width="80%"></br></br>
+                        <li>Enter the Queue Name, Message Type. For the paylod select the Available Mappings icon then
+                            select all available mappings and select the Object.</li>
+                        <img src="img/mq-flow-details-object-map.png" alt="MQ Details Object" width="80%"></br></br>
+
+                        <li>Click Done.</li>
+                        <li>Start the flow and test it.</li>
+                        <img src="img/start-test-flow.png" alt="Start the message flow" width="80%"></br></br>
+                        <li>Click on (1) The "Test" Tab followed by (2) the operation and finally in the body view click
+                            (3) "Try it"</li>
+                        <img src="img/ace-design-test-tryit.png" alt="Try It" width="80%"></br></br>
+                        <li>In the Parameters click Generate. Click "Send".</li>
+                        <img src="img/ace-design-test-parameters-generate.png" alt="Generate parameters"
+                            width="80%"></br></br>
+                        <li>If successful you will get a response with the account number reflected back</li>
+                        <img src="img/try-it-response.png" alt="Sample Response" width="80%"></br></br>
+                        <li>Open the MQ Explorer in a new tab from the Integration Instances. Click on Manager, and
+                            click on the fundTransfer Queue Manager</li>
+                        <img src="img/mq-explorer.png" alt="MQ Explorer" width="80%"></br></br>
+                        <li>Click on the TRANSFER.REQUEST queue. </li>
+                        <img src="img/fundtransfer-queues.png" alt="MQ FUNDTRANSFER REQUEST" width="80%"></br></br>
+                        <li>Open the test message sent confirming the message was delivered to the queue.</li>
+                        <img src="img/mq-message-on-queue.png" alt="MQ FUNDTRANSFER REQUEST" width="80%"></br></br>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">
+                                <h4>Export Flow and Create Integration Server</h4>
+                            </li>
+                        </ol>
+                        <p class="mb-0">In this section we will export the service flow we created and deploy the bar file to an integration server.
+                        </p></br>
+                        <ol>
+                            <li>Click the Dashboard Icon from the icon menu in the Integration Designer. Click on the elipse button  and click export</li>
+                            <img src="img/integration-design-dashboard-export.png" alt="Dashboard export" width="80%"></br></br>
+                            <li>Export the bar file and yaml file to local drive then unzip the fundtransfer.zip</li>
+                            <img src="img/integration-design-export-view.png" alt="Dashboard export" width="80%"></br></br>
+                            <li>Open the Integration dashboard in a new browser tab from the Integration Instances</li>
+                            <img src="img/integration-instances-ace-db-new-tab.png" alt="ACE DB new Tab" width="80%"></br></br>
+                            <li>Click on the Deploy Integrations tile</li>
+                            <img src="img/integration-dashboard-deploy-integrations-1.png" alt="ACE DB Deploy Integrations" width="80%"></br></br>
+                            <li>Click on quickstart template tile</li>
+                            <img src="img/integration-quickstart.png" alt="ACE DB Quickstart" width="80%"></br></br>
+                            <li>Upload the fundtransfer.bar BAR file from the unzipped folder. Click Next.</li>
+                            <img src="img/integration-barfile.png" alt="ACE DB Barfile" width="80%"></br></br>
+                            <li>Select the ACE Designer Account to include the MQ configuration. Click Next.</li>
+                            <img src="img/integration-account-configurations.png" alt="ACE DB Configurations" width="80%"></br></br>
+                            <li>Modify the name of the Integration server "ir-fundtransfer". Click Create.</li>
+                            <img src="img/integration-ir-fundtransfer.png" alt="ACE DB Integration Server" width="80%"></br></br>
+                            <li>Wait for the integration Server start. Then click on the server tile and Click on the fundTransfer API. Execute the test case for the deployed flow. Using teh same approach as executed in the designer.</li>
+                            <img src="img/integration-server-try-it.png" alt="ACE DB Runtimes Try It" width="80%"></br></br>
+                            <li>In the overview section of the API click on the download link for the yaml file</li>
+                            <img src="img/integration-server-api-download-yaml.png" alt="ACE YAML Download" width="80%"></br></br>
+
+
+                        </ol>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">
+                                <h4>Import API to API Connect</h4>
+                            </li>
+                        </ol>
+                        <p class="mb-0">In this section we will import the API exposed on the integration service to the API.
+                        </p></br>
+                        <ol>
+                            <li>Open the API manager (From Platform UI home page click on Design APIs), logon on as your organisation adminstrator "orgadmin", using API Manger Registry. Click on the "Develop APIs and Products Tile"</li>
+                            <img src="img/api-manager-develop-apis.png" alt="ACE DB Develop APIs" width="80%"></br></br>
+                            <li>In the Develop API view click on the Add button and select API. </li>
+                            <img src="img/api-manager-develop-api-add.png" alt="ACE DB Develop Add APIs" width="80%"></br></br>
+                            <li>Click on "From Target Service" for the API type and click Next.</li>
+                            <img src="img/api-manager-from-target-service.png" alt="ACE DB Develop From Target Service" width="80%"></br></br>
+                            <li>Enter the Target Service Details. (1) Title (2) Target URL. Get the Target URL from the test screen in the Integration Server Testing</li>
+                            <img src="img/target-service.png" alt="Target Service" width="80%"></br></br>
+                            <img src="img/integration-server-target-url.png" alt="ACE Target URL" width="80%"></br></br>
+                            <li>Select the secure properties for the API and Click Next</li>
+                            <img src="img/secure-api.png" alt="Secure Service" width="80%"></br></br>
+                            <li>Select the secure properties for the API</li>
+                            <img src="img/secure-api.png" alt="Secure Service" width="80%"></br></br>
+                            <li>The summary will reflect the geenrated API and security. Click Edit API</li>
+                            <img src="img/secure-api.png" alt="Secure Service" width="80%"></br></br>
+                            <li>Bring the API online and we will do unit test.</li>
+                            <img src="img/bring-online.png" alt="Bring Online" width="80%"></br></br>
+                            <li>Copy the sample data.</li>
+                            <script src="https://gist.github.com/leonardBlunt/becb9725f4ecbee84b0b549b3350e352.js"></script>
+                            <li>Click on the (1) Test Tab. (2) Select a Post, Click on the Body tab and paste the test data</li>
+                            <img src="img/test-the-api.png" alt="Test the API" width="80%"></br></br>
+                            <li>Click send</li>
+                            <img src="img/test-success.png" alt="Test Success" width="80%"></br></br>
+
+                        </ol>
+
+
+                    </ol>
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; IBM Cloud Pak®</div>
+                        <div>
+                            <a href="https://www.ibm.com/us-en/privacy?lnk=flg-priv-usen">Privacy Policy</a>
+                            &middot;
+                            <a href="https://www.ibm.com/legal?lnk=flg-tous-usen">Terms of use</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>
