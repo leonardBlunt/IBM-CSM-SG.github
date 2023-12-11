@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>CP4I - Messaging</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <script>
+        function copyToClipboard(element) {
+            // Get the <pre> element
+            const preTag = document.getElementById(element);
+
+            // Create a copy button element
+            const copyButton = document.createElement("span");
+            copyButton.innerText = "Copy";
+            copyButton.classList.add("copy-button");
+
+            // Append the copy button to the <pre> tag
+            preTag.appendChild(copyButton);
+
+            // Add click event listener to the copy button
+            copyButton.addEventListener("click", () => {
+                // Hide the copy button temporarily
+                copyButton.style.display = "none";
+
+                // Create a range and select the text inside the <pre> tag
+                const range = document.createRange();
+                range.selectNode(preTag);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+
+                try {
+                    // Copy the selected text to the clipboard
+                    document.execCommand("copy");
+
+                    // Alert the user that the text has been copied
+                    copyButton.innerText = "Copied!";
+                    setTimeout(function () {
+                        copyButton.innerText = "Copy";
+                    }, 2000);
+                } catch (err) {
+                    console.error("Unable to copy text:", err);
+                } finally {
+                    // Show the copy button again
+                    copyButton.style.display = "inline";
+
+                    // Deselect the text
+                    window.getSelection().removeAllRanges();
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .codeDiv {
+            border: 1px #0000006e;
+            background-color: #f8f8f8;
+            text-align: left;
+            vertical-align: text-bottom;
+            color: #da467d;
+        }
+
+        pre {
+            position: relative;
+            background: #d3d6db;
+            padding: 10px;
+            font-size: 15px;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            border: 1px solid #e6e7e9;
+
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 2px;
+            right: 10px;
+            cursor: pointer;
+            color: #fff;
+            background: gray;
+            border-radius: 0.5em;
+            padding: 2px 7px;
+        }
+
+        .copy-button:hover {
+            color: #000;
+        }
+        table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px; /* Adjust padding for cell content */
+      text-align: left; /* Align text within cells */
+    }
+    th {
+      background-color: #f2f2f2; /* Background color for header */
+    }
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 20%; /* Adjust the width of the first column */
+    }
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 40%; /* Adjust the width of the second column */
+    }
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 25%; /* Adjust the width of the third column */
+    }
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 15%; /* Adjust the width of the fourth column */
+    }
+    </style>
+
+</head>
+
+<body>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="../../../index.html">IBM CSM</a>
+
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+        <a class="navbar-brand ps-3" href="../../../index.html">Integration Skills Launchpad</a>
+        <!-- Navbar Search
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>-->
+        <!-- Navbar
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>-->
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link" href="../../index-cp4i-add.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Overview
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Use cases</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            CP4I - Additional Practice Materials
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="../../EvsMQ/evsMQ.html">Event Stream + MQ</a>
+                                <a class="nav-link" href="../../apicMQ/apicMQ.html">APIC + MQ</a>
+                                <a class="nav-link" href="../../intmod/intmod.html">Integration Modernization</a>
+                                <a class="nav-link" href="../../apilcm/apilcm.html">API Life Cycle Management</a>
+                            </nav>
+                        </div>
+                        <!--<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                            aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            CP4D
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="./cp4d-others/README.md">Additional Practice Materials</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages1">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            CP4BA
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="temp.html">Additional Practice Materials</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            CP4APPS
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages2" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="temp.html">Additional Practice Materials</a>
+                            </nav>
+                        </div> -->
+                        <!--<div class="sb-sidenav-menu-heading">Environment Guides</div>
+                        <a class="nav-link" href="logonInformation.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Environment Details
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Add ons</div>
+                        <a class="nav-link" href="glossary.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Glossary
+                        </a>-->
+                        <!-- <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Charts
+                            </a>
+                            <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
+                            </a> -->
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">IBM CSM</div>
+                    <div class="small">Author : Sujatha Sureshkumar</div>
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Overview</h1>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">
+                                    <h4 id="overview">Create a connection to the Kafka clusters</h4>
+                                </li>
+                            </ol>
+                            <p>There are several labs that use Kafka and we will need to create a connection to access the Kafka cluster when using Smart connectors, Toolkit flows, and Event Endpoint apis. 
+                                You will need to save the details from this section to be used in varies labs. </p>
+                                <p><strong>NOTE: You should do this from the VDI since you will need to run varies commands so best to have the cert files saved to the VDI</strong></p>
+                                <p><a href="../index.md#lab-sections">Return to Scenario main page</a></p>
+                                <h1 id="1-create-scram-credentials-to-connect-to-event-streams">1. Create SCRAM credentials to connect to Event Streams</h1>
+                                <p>1. Use the URL to the CP4I cluster that was provided to you from the instructor.   Select the <strong>Enterprise LDAP</strong>.</p>
+                                <p><img src="images/0.png" alt="alt text"></p>
+                                <p>2. When prompted use the username and password provided to you for this lab. In this example, we are using chopper1.</p>
+                                <p><img src="images/1.png" alt="alt text"></p>
+                                <p>3. You will now be on your home page and in the upper left it will show your login name.   Under <strong>Event Streaming</strong> click on the <strong>es-demo</strong> link to take you to the Event Streams Home page.</p>
+                                <p><img src="images/2.png" alt="alt text"></p>
+                                <p>4. Now we will select the <strong>Connect to this Cluster</strong> tile.</p>
+                                <p> <img src="images/3.png" alt="alt text"></p>
+                                <p>5. Now we will see the Cluster connection screen. Make sure you select <strong>External</strong> and then click the <strong>Generate SCRAM credentials</strong>.</p>
+                                <p><img src="images/4.png" alt="alt text"></p>
+                                <p>6. You will need to enter the following details.</p>
+                                <table>
+                                <thead>
+                                <tr>
+                                <th>Option</th>
+                                <th style="text-align:center">Value</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                <td>Credential name</td>
+                                <td style="text-align:center">For the <strong>credentials name</strong> use your userid/username/unique identifier</td>
+                                </tr>
+                                <tr>
+                                <td>What do you want your application to do?</td>
+                                <td style="text-align:center">Produce messages, consume messages and create topics and schemas</td>
+                                </tr>
+                                <tr>
+                                <td>Which topics does the application need to access?</td>
+                                <td style="text-align:center">All topics</td>
+                                </tr>
+                                <tr>
+                                <td>Which consumer group does the application need to access?</td>
+                                <td style="text-align:center">All consumer group</td>
+                                </tr>
+                                <tr>
+                                <td>Choose which transactional IDs the application can access</td>
+                                <td style="text-align:center">All transactional IDs</td>
+                                </tr>
+                                </tbody>
+                                </table>
+                                <p>6b. For the <strong>credentials name</strong> use your userid/username/unique identifier. Make sure the <strong>Produce messages, consume messages and create topics and schemas</strong> button is selected and then click <strong>Next</strong>.</p>
+                                <p>7. On the next screen select the <strong>All Topics</strong>.  Click <strong>Next</strong>.</p>
+                                <p>8. On the next screen select the <strong>All consumer group</strong>.  Click <strong>Next</strong>.</p>
+                                <p>9. Select the <strong>All transactional IDs</strong>.  Click <strong>Generate credentials</strong>.</p>
+                                <p>10. Now that we have the credentials generated use the icon to copy them and save them for use later in other labs. </p>
+                                <ul>
+                                <li>a. Save the bootstrap URL of the cluster</li>
+                                <li>b. Save the SCRAM username </li>
+                                <li><p>c. Save the SCRAM password </p>
+                                </li>
+                                <li><p>Last is to download the PEM certificate. </p>
+                                </li>
+                                </ul>
+                                <p><img src="images/9.png" alt="alt text"></p>
+                                <p>11. Save the es-cert.pem, this will be used to connect to the Event Stream Cluster. </p>
+                                <p><img src="images/10.png" alt="alt text"></p>
+                                <p>12. We will also download the PKCS12 certificate and save the <strong>PKCS12 password</strong>. This will be used to connect to the Event Stream Cluster when using the toolkit flows. </p>
+                                <p><img src="images/11.png" alt="alt text"></p>
+                                <p>13. Due to the version of Java in ACE we will need to convert the PKCS12 to a JKS.  We will do this by running the following command.  </p>
+                                <p><code>
+                                keytool -importkeystore -srckeystore es-cert.p12 -srcstoretype PKCS12 -destkeystore es-cert.jks -deststoretype JKS -srcstorepass XXXXXXX -deststorepass XXXXXX -noprompt
+                                </code></p>
+                                <p>We will first open a terminal window.  Next cd to the Downloads directory.  If you do a ls es-cert* command you should see the es-demo.p12 cert you just download. 
+                                The only thing you need to change in this example is replace the XXXXXX with the password you saved for the PKCS12 cert. 
+                                Once done do a list again and you will now see the es-cert.jks file. </p>
+                                <h1 id="summary">Summary</h1>
+                                <p>We should now have the following saved for use in the Kafka labs. </p>
+                                <ul>
+                                <li>a. The bootstrap URL of the cluster</li>
+                                <li>b. The SCRAM username </li>
+                                <li>c. The SCRAM password </li>
+                                <li>d. The PEM certificate (used in the Designer flows).</li>
+                                <li>e. The PKCS12 password (used in the Toolkit flows).</li>
+                                <li>f. The PKCS12 certificate (used in the Toolkit flows).</li>
+                                <li>g. The JKS Certificate (used in the Toolkit flows).</li>
+                                </ul>
+                                <p>You should have a text file saved on the device with this info and the cert files will be in your Downloads directory. </p>
+                                <p><img src="images/12.png" alt="alt text"></p>
+                                
+                           
+
+                    </div>
+                </div>
+      
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; IBM Cloud Pak®</div>
+                        <div>
+                            <a href="https://www.ibm.com/us-en/privacy?lnk=flg-priv-usen">Privacy Policy</a>
+                            &middot;
+                            <a href="https://www.ibm.com/legal?lnk=flg-tous-usen">Terms of use</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>

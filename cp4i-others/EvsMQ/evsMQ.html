@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>CP4I - Messaging</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <script>
+        function copyToClipboard(element) {
+            // Get the <pre> element
+            const preTag = document.getElementById(element);
+
+            // Create a copy button element
+            const copyButton = document.createElement("span");
+            copyButton.innerText = "Copy";
+            copyButton.classList.add("copy-button");
+
+            // Append the copy button to the <pre> tag
+            preTag.appendChild(copyButton);
+
+            // Add click event listener to the copy button
+            copyButton.addEventListener("click", () => {
+                // Hide the copy button temporarily
+                copyButton.style.display = "none";
+
+                // Create a range and select the text inside the <pre> tag
+                const range = document.createRange();
+                range.selectNode(preTag);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+
+                try {
+                    // Copy the selected text to the clipboard
+                    document.execCommand("copy");
+
+                    // Alert the user that the text has been copied
+                    copyButton.innerText = "Copied!";
+                    setTimeout(function () {
+                        copyButton.innerText = "Copy";
+                    }, 2000);
+                } catch (err) {
+                    console.error("Unable to copy text:", err);
+                } finally {
+                    // Show the copy button again
+                    copyButton.style.display = "inline";
+
+                    // Deselect the text
+                    window.getSelection().removeAllRanges();
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .codeDiv {
+            border: 1px #0000006e;
+            background-color: #f8f8f8;
+            text-align: left;
+            vertical-align: text-bottom;
+            color: #da467d;
+        }
+
+        pre {
+            position: relative;
+            background: #d3d6db;
+            padding: 10px;
+            font-size: 15px;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            border: 1px solid #e6e7e9;
+
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 2px;
+            right: 10px;
+            cursor: pointer;
+            color: #fff;
+            background: gray;
+            border-radius: 0.5em;
+            padding: 2px 7px;
+        }
+
+        .copy-button:hover {
+            color: #000;
+        }
+        table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px; /* Adjust padding for cell content */
+      text-align: left; /* Align text within cells */
+    }
+    th {
+      background-color: #f2f2f2; /* Background color for header */
+    }
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 20%; /* Adjust the width of the first column */
+    }
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 40%; /* Adjust the width of the second column */
+    }
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 25%; /* Adjust the width of the third column */
+    }
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 15%; /* Adjust the width of the fourth column */
+    }
+    </style>
+
+</head>
+
+<body>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="../../index.html">IBM CSM</a>
+
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+        <a class="navbar-brand ps-3" href="../../index.html">Integration Skills Launchpad</a>
+        <!-- Navbar Search
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>-->
+        <!-- Navbar
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>-->
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link" href="../index-cp4i-add.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Overview
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Use cases</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            CP4I - Additional Practice Materials
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="../EvsMQ/evsMQ.html">Event Stream + MQ</a>
+                                <a class="nav-link" href="../apicMQ/apicMQ.html">APIC + MQ</a>
+                                <a class="nav-link" href="../intmod/intmod.html">Integration Modernization</a>
+                                <a class="nav-link" href="../apilcm/apilcm.html">API Life Cycle Management</a>
+                            </nav>
+                        </div>
+                        <!--<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                            aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            CP4D
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="./cp4d-others/README.md">Additional Practice Materials</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages1">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            CP4BA
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="temp.html">Additional Practice Materials</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            CP4APPS
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages2" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="temp.html">Additional Practice Materials</a>
+                            </nav>
+                        </div> -->
+                        <!--<div class="sb-sidenav-menu-heading">Environment Guides</div>
+                        <a class="nav-link" href="logonInformation.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Environment Details
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Add ons</div>
+                        <a class="nav-link" href="glossary.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Glossary
+                        </a>-->
+                        <!-- <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Charts
+                            </a>
+                            <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
+                            </a> -->
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">IBM CSM</div>
+                    <div class="small">Author : Sujatha Sureshkumar</div>
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Overview</h1>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">
+                                    <h4 id="overview">CP4I Kafka Experience</h4>
+                                </li>
+                            </ol>
+                            <p class="mb-0">
+                                This section details CP4I - Additional Practice Materials.
+                            </p></br>
+                            <ul>
+                                <li><strong><a href="#introduction">Scenario Introduction</a></strong></li>
+                                <li><strong><a href="#architecture">Solution Architecture</a></strong></li>
+                                <li><strong><a href="#architecture_hl">High Level Architecture</a></strong></li>
+                                <li><strong><a href="#architecture_flow">Detailed Solution Flow</a></strong></li>
+                                <li><strong><a href="#software_list">List of Software Products Used</a></strong></li>
+                                <li><strong><a href="#solution_build">Solution Build</a></strong></li>
+                                </ul>
+                                <p><span id="introduction" /></p>
+                                <h2 id="ibm-cp4i-scenario-introduction">IBM CP4I Scenario Introduction</h2>
+                                <ul>
+                                <li><p>FictionCorp is a Online shopping company which recieves the user registration data and stores it in kafka cluster to be consumed by other subscribed applications. </p>
+                                </li>
+                                <li><p>They want to use MQ Queue Manager to consume data from kafka topic for to notified downstream applications for new user registrations. </p>
+                                </li>
+                                <li><p>They have recently bought CP4I entitelment and exploring to use IBM Event Streams and MQ for implementing above user case. </p>
+                                </li>
+                                </ul>
+                                <p><strong>Challanges</strong> <BR>
+                                Your team have (3) days to document your approach to a Solution to the customers business problem using CP4I capabilities and any external capabilities that you think are necessary or useful.
+                                Day 3: Demonstrate your solution to whole class.</p>
+                                <p><span id="architecture" /></p>
+                                <h2 id="solution-architecture">Solution Architecture</h2>
+                                <p><span id="architecture_hl" /></p>
+                                <h3 id="high-level-architecture">High Level Architecture</h3>
+                                <p><img src="img/high-level-architecture-diagram.png" width=600 height=480/></p>
+                                <ul>
+                                <li>We need an <strong>Application Integration</strong> capabilities for publishing an API to post the user registration data to be produced to <strong>Event Stream</strong> Topic.</li>
+                                <li>Another application witin <strong>Applicaion Integration</strong> will consume the user registration data and upload it to the IBM MQ Queue.</li>
+                                </ul>
+                                <p><span id="architecture_flow" /></p>
+                                <h3 id="detailed-solution-flow">Detailed Solution Flow</h3>
+                                <ol>
+                                <li>Inside <strong>IBM App Connect Enterprise</strong> there will be an application that will expose the API to post the Data and transform it to the format required by the business users and publish it in an <strong>IBM Event Streams</strong> topic.</li>
+                                <li>Second application will be created to consume User data from Topic and upload to he MQ Queue.</li>
+                                </ol>
+                                <p><span id="software_list" /></p>
+                                <h3 id="list-of-software-products-used-in-scenario">List of Software Products Used In Scenario</h3>
+                                <p><img src="img/cloud-pak-stack.png" width=800 height=480/></p>
+                                <p>The Cloud Pak for Integration services that we will be use are:</p>
+                                <ul>
+                                <li>IBM App Connect Enterprise</li>
+                                <li>IBM Event Streams</li>
+                                <li>IBM MQ</li>
+                                </ul>
+                                <p><span id="solution_build" /></p>
+                                <h2 id="solution-build">Solution Build</h2>
+                                <p>This scenario can be implemented/developed using <strong>one of the below two ways</strong>. You can use online <strong>CP4I App Connect Designer</strong> to design the flow and optionally export is as bar file to be deployed it on the integration server. Alternatively you can use traditional <strong>App Connect Enterprise (ACE) Client</strong> to design the flow and export the bar file to be deployed on the integration server.</p>
+                                <p>You can refer to below instructions to <strong><a href="Kafka-Pre-lab/Kafka-Pre-Lab.html">Create Connection to shared Kafka cluster.</a></strong> Steps to create Kafka connection and save credentials and certs for all Kafka labs. </p>
+                                <p>You may need to <strong><a href="Kafka-Pre-lab/Install-Client-Tools.html">install client tools</a></strong> to work on this lab. </p>
+                                <table>
+                                <thead>
+                                <tr>
+                                <th>Subject</th>
+                                <th>Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                <td><a href="Lab_1/Lab_1.html">Using CP4I App Connect Designer</a></td>
+                                <td><strong>Event Driven flows(Kafka)</strong> The purpose of this lab is to provide an introduction to Kafka using <strong>App Connect Designer</strong> Smart connectors to create producers and consumers of Kafka messages using Event Steams </td>
+                                </tr>
+                                <tr>
+                                <td><a href="Lab_2/Lab_2.html">Using IBM App Connect Client </a></td>
+                                <td><strong>Event Driven flows (Kafka)</strong> The purpose of this lab is to provide an introduction to Kafka Toolkit using <strong>App Connect Enterprise (ACE)</strong> to create producers and consumers of Kafka messages using Event Steams.</td>
+                                </tr>
+                                </tbody>
+                                </table>
+
+                    </div>
+                </div>
+      
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; IBM Cloud Pak®</div>
+                        <div>
+                            <a href="https://www.ibm.com/us-en/privacy?lnk=flg-priv-usen">Privacy Policy</a>
+                            &middot;
+                            <a href="https://www.ibm.com/legal?lnk=flg-tous-usen">Terms of use</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>
