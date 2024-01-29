@@ -162,18 +162,18 @@
                                 <a class="nav-link" href="cp4isetupnewoperators.html">Install Integration Operators</a>
                             </nav>
                         </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseLayouts_lp_2" aria-expanded="false" aria-controls="collapseLayouts_lp_2">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Optional Setup
+                            Bastion Pod Setup
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapseLayouts_lp_2" aria-labelledby="headingTwo"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link" href="cp4ibastionservice.html">Configure Bastion Service (optional)</a>
+                                <a class="nav-link" href="cp4ibastionservice.html">Configure Bastion Service</a>
                             </nav>
-                        </div>
+                        </div> -->
                         <div class="sb-sidenav-menu-heading">MQ-EventStreams</div>
                      
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages_mq_1"
@@ -458,6 +458,10 @@
                                         <li>Follow the red highlighted parts for config map configuration</li>
                                         <img src="assets/img/CP4ISetup/image040.png" alt="Usecase" class="center"
                                             object-fit="none" />
+                                        
+                                        <li>Update Queue Manager name from "CUSTOM" to "fundtransfer"</li>
+                                        <img src="assets/img/CP4ISetup/image113.png" alt="Usecase" class="center"
+                                            object-fit="none" />
 
                                         <li>Storage class configuration</li>
                                         <img src="assets/img/CP4ISetup/image041.png" alt="Usecase" class="center"
@@ -530,6 +534,34 @@
                                             at the later stage</li>
                                         <img src="assets/img/CP4ISetup/image051.png" alt="Usecase" class="center"
                                             object-fit="none" />
+                                    </ol>
+                                    <ol class="breadcrumb mb-4">
+                                        <li class="breadcrumb-item active">
+                                            <h4 id="assignment">Queue Manager Authority Access</h4>
+                                        </li>
+                                    </ol>
+                                    <p class="mb-0">We will configure authority records to allow client app queue manager access.</p>
+                                    <ol>
+                                        <li>Navigate to "view configuration" from queue manager dashboard</li>
+                                        <img src="assets/img/CP4ISetup/image117.png" alt="Usecase" class="center" object-fit="none" />
+                                        <li>Select the security tab in the middle</li>
+                                        <li>Select authority records</li>
+                                        <li>Click "Add" then grant and add user "fundtransfer" with all access</li>
+                                        <img src="assets/img/CP4ISetup/image114.png" alt="Usecase" class="center" object-fit="none" />
+                                    </ol>
+
+                                    <ol class="breadcrumb mb-4">
+                                        <li class="breadcrumb-item active">
+                                            <h4 id="assignment">Message Queue Authority Access</h4>
+                                        </li>
+                                    </ol>
+                                    <p class="mb-0">We will configure authority records to allow client app at queue level.</p>
+                                    <ol>
+                                        <li>Navigate to "view configuration" from list of queues</li>
+                                        <img src="assets/img/CP4ISetup/image115.png" alt="Usecase" class="center" object-fit="none" />
+                                        <li>Select the security tab on the right</li>
+                                        <li>Click "Add" then grant and add user "fundtransfer" with all access</li>
+                                        <img src="assets/img/CP4ISetup/image116.png" alt="Usecase" class="center" object-fit="none" />
                                     </ol>
 
                                     <ol class="breadcrumb mb-4">

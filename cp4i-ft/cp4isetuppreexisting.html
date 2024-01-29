@@ -156,18 +156,18 @@ function copyToClipboard(element) {
                                 <a class="nav-link" href="cp4isetupnewoperators.html">Install Integration Operators</a>
                             </nav>
                         </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseLayouts_lp_2" aria-expanded="false" aria-controls="collapseLayouts_lp_2">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Optional Setup
+                            Bastion Pod Setup
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapseLayouts_lp_2" aria-labelledby="headingTwo"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link" href="cp4ibastionservice.html">Configure Bastion Service (optional)</a>
+                                <a class="nav-link" href="cp4ibastionservice.html">Configure Bastion Service</a>
                             </nav>
-                        </div>
+                        </div> -->
                         <div class="sb-sidenav-menu-heading">MQ-EventStreams</div>
                      
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages_mq_1"
@@ -318,6 +318,29 @@ function copyToClipboard(element) {
 
                             <ol class="breadcrumb mb-4">
                                 <li class="breadcrumb-item active">
+                                    <h4 id="operators">Creating Bastion Service</h4>
+                                </li>
+                            </ol>
+                            Creating a bastion service in Red Hat OpenShift involves setting up a secure entry point to access and manage resources within your cluster. This service is intended as a contingency plan to be utilized only in the event that the practicum bastion server is inaccessible during the practicum session.
+                            <ol>
+                                <li>Go to Openshift Console -> Click "+"</li>
+                                <img src="assets/img/CP4ISetup/image108.png" alt="Usecase" class="center"/>
+                                <li>Choose -> "All Projects". Add the following code snippet and click "Create"</li>
+                                <script src="https://gist.github.com/sujatha-sureshkmr/097cede3ecc87993ec96981673ddbde4.js"></script>
+                                <img src="assets/img/CP4ISetup/image109.png" alt="Usecase" class="center" width="900" height="400" />
+                                <li>Go to Workloads -> Pods -> Project -> "All Projects" -> search for "Bastion-service". Note: Wait till you see the pod running state/status.</li>
+                                <img src="assets/img/CP4ISetup/image111.png" alt="Usecase" class="center" width="900" height="400" />
+                                <li>Click the pod related to bastion-service -> Terminal</br>Note:This bastion service is in raw form and hence you will need to install basic libraries such as "wget".</li>
+                                <img src="assets/img/CP4ISetup/image112.png" alt="Usecase" class="center" width="900" height="400" />
+                                <!-- <div class="codeDiv" onclick="copyToClipboard('myPreTag')">
+                                    <pre id="myPreTag">yum install -y wget</pre>
+                                    <script src="script.js"></script>
+                                    </div>
+                                <img src="assets/img/CP4ISetup/image110.png" alt="Usecase" class="center" width="900" height="400" /> -->
+                            </ol>
+
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">
                                     <h4 id="operators">Installed Operators</h4>
                                 </li>
                             </ol>
@@ -375,7 +398,7 @@ function copyToClipboard(element) {
                             operators and the Platform UI. The following steps will guid you to do this using the oc
                             CLI.
                             <ol>
-                                <li>Get the oc login details by following the below steps:</li>
+                                <!-- <li>Get the oc login details by following the below steps:</li>
                                 <ol type="a">
                                     <li>Copy login command that is available from OCP console. The user id that you are
                                         currently logged in “ocpadmin” is on the right side of the OCP console. Click
@@ -394,9 +417,9 @@ function copyToClipboard(element) {
                                     <img src="assets/img/CP4ISetup/image015.png" alt="Usecase" class="center"
                                         object-fit="contain" />
                                     <br>
-                                </ol>
+                                </ol> -->
 
-                                <li>Go to the environment details page -> click on the bastion</li>
+                                <!-- <li>Go to the environment details page -> click on the bastion</li>
 
                                 <ol type="a">
                                     <li>For linux/mac os -> you can directly click on the SSH client.</li>
@@ -405,22 +428,22 @@ function copyToClipboard(element) {
                                     <img src="assets/img/CP4ISetup/image016.png" alt="Usecase" class="center"
                                         object-fit="contain" />
                                     <br>
-                                </ol>
+                                </ol> -->
 
-                                <li>Follow these steps in the ocp oc CLI.</li>
+                                <li>Follow these steps in the ocp oc CLI within terminal of the bastion pod created earlier.</li>
 
                                 <ol type="a">
-                                    <li>Go into sudo mode </li>
+                                    <!-- <li>Go into sudo mode </li>
                                     <div class="codeDiv" onclick="copyToClipboard('myPreTag')">
                                     <pre id="myPreTag">sudo su</pre>
                                     <script src="script.js"></script>
-                                    </div>
-                                    <li>oc login. Note: Please use oc login from Installed pods section.</li>
+                                    </div> -->
+                                    <!-- <li>oc login. Note: Please use oc login from Installed pods section.</li>
                                     <div class="codeDiv" onclick="copyToClipboard('myPreTag1')">
                                         <pre id="myPreTag1">oc login --token=sha256~FMC9XyF_nJaCwHR_S_ctbDlx3QCjQZE5XDz_UW1_VRY --server=https://api.daffy-e9pdsed1.cloud.techzone.ibm.com:6443</pre>
                                         <script src="script.js"></script>
                                         </pre>
-                                    </div>
+                                    </div> -->
                                     <li>Change project to “cp4i” </li>
                                     <div class="codeDiv" onclick="copyToClipboard('myPreTag2')">
                                         <pre id="myPreTag2">oc project cp4i</pre>
@@ -433,9 +456,9 @@ function copyToClipboard(element) {
                                             <script src="script.js"></script>
                                             </div>
                                     <br>
-                                    <img src="assets/img/CP4ISetup/image017.png" alt="Usecase" class="center"
-                                        object-fit="contain" />
-                                    <br>
+                                    <!-- <img src="assets/img/CP4ISetup/image017.png" alt="Usecase" class="center"
+                                        object-fit="contain" /> -->
+                                    <!-- <br> -->
                                 </ol>
 
 
@@ -451,21 +474,22 @@ function copyToClipboard(element) {
                             The configuration process entails establishing a connection factory to define communication settings, such as connection parameters and authentication mechanisms. This connection factory serves as the gateway for creating connections to the IBM MQ messaging system.
                             <ol>
                                 <ol type="a">
-                                    <li>We will now install Java. </br> Go to bastion terminal. Go into sudo mode </li>
+                                    <li>Download additional utility packages that will be used. Go to bastion terminal</li>
                                     <div class="codeDiv" onclick="copyToClipboard('myPreTag09')">
-                                        <pre id="myPreTag09">sudo su</pre>
+                                        <pre id="myPreTag09">yum install wget</pre>
                                         <script src="script.js"></script>
                                     </div>
                                     <div class="codeDiv" onclick="copyToClipboard('myPreTag10')">
-                                        <pre id="myPreTag10">cd </pre>
+                                        <pre id="myPreTag10">yum install unzip</pre>
                                         <script src="script.js"></script>
                                     </div>
+                                    <li>We will next install Java.</li>
                                     <div class="codeDiv" onclick="copyToClipboard('myPreTag11')">
-                                        <pre id="myPreTag11">sudo yum install java-latest-openjdk-devel</pre>
+                                        <pre id="myPreTag11">yum install java-1.8.0-openjdk</pre>
                                         <script src="script.js"></script>
                                     </div>
                                     <div class="codeDiv" onclick="copyToClipboard('myPreTag12')">
-                                        <pre id="myPreTag12">sudo yum install java-latest-openjdk</pre>
+                                        <pre id="myPreTag12">yum install java-1.8.0-openjdk-devel</pre>
                                         <script src="script.js"></script>
                                     </div>
                                     <li>Clone the following repositry from github.</li>
@@ -488,7 +512,7 @@ function copyToClipboard(element) {
                                         </code> </pre>
                                         <script src="script.js"></script>
                                     </div>
-                                    <img src="assets/img/CP4ISetup/image098.png" alt="Usecase" class="center" object-fit="none" />
+                                    <!-- <img src="assets/img/CP4ISetup/image098.png" alt="Usecase" class="center" object-fit="none" /> -->
                                     <li>We will now prepare the keys and certs that will be later used for IBM MQ.</li>
                                     <div class="codeDiv" onclick="copyToClipboard('myPreTag15')">
                                         <pre id="myPmyPreTag15reTag"><code>keytool -importkeystore \ </br>-deststorepass password -destkeypass password -destkeystore ftappkey.jks -deststoretype jks -alias ftappcert -destalias ftappcert \</br>-srckeystore ftapp.p12 -srcstoretype PKCS12 -srcstorepass password </code></pre>
