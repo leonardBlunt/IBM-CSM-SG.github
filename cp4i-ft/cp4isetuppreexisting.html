@@ -494,7 +494,8 @@ function copyToClipboard(element) {
                                     </div>
                                     <li>Clone the following repositry from github.</li>
                                     <div class="codeDiv" onclick="copyToClipboard('myPreTag')">
-                                        <pre id="myPreTag">wget https://github.com/sujatha-sureshkmr/ft-mq-jms/archive/refs/heads/main.zip</pre>
+                                        <!-- <pre id="myPreTag">wget https://github.com/sujatha-sureshkmr/ft-mq-jms/archive/refs/heads/main.zip</pre> -->
+                                        <pre id="myPreTag">wget https://github.com/IBM-CSM-SGP/IBM-CSM-SGP.github.io/raw/main/cp4i-ft/main.zip</pre>
                                         <script src="script.js"></script>
                                     </div>
                                   
@@ -515,7 +516,7 @@ function copyToClipboard(element) {
                                     <!-- <img src="assets/img/CP4ISetup/image098.png" alt="Usecase" class="center" object-fit="none" /> -->
                                     <li>We will now prepare the keys and certs that will be later used for IBM MQ.</li>
                                     <div class="codeDiv" onclick="copyToClipboard('myPreTag15')">
-                                        <pre id="myPmyPreTag15reTag"><code>keytool -importkeystore \ </br>-deststorepass password -destkeypass password -destkeystore ftappkey.jks -deststoretype jks -alias ftappcert -destalias ftappcert \</br>-srckeystore ftapp.p12 -srcstoretype PKCS12 -srcstorepass password </code></pre>
+                                        <pre id="myPmyPreTag15reTag"><code>keytool -importkeystore -deststorepass password -destkeypass password -destkeystore ftappkey.jks -deststoretype jks -alias ftappcert -destalias ftappcert -srckeystore ftapp.p12 -srcstoretype PKCS12 -srcstorepass password </code></pre>
                                         <script src="script.js"></script>
                                     </div>
                                     <div class="codeDiv" onclick="copyToClipboard('myPreTag16')">
